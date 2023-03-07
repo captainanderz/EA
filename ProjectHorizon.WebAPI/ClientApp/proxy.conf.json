@@ -1,0 +1,10 @@
+{
+    "/api/*": {
+      "target": "https://localhost:44341",
+      "secure": false
+    },
+    "/signalr-messages/*": {
+      "target": "https://localhost:44341",
+      "secure": false
+    }
+}

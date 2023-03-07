@@ -1,0 +1,52 @@
+<div class="container-fluid mt-4 table-layout">
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-lg-4">
+      <h3 class="mb-2">Notifications</h3>
+    </div>
+  </div>
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>
+                <div class="th-inner">Added On</div>
+              </th>
+              <th>
+                <div class="th-inner">Type</div>
+              </th>
+              <th>
+                <div class="th-inner">Message</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let notification of notifications"
+              [class]="!notification.isRead ? 'unread' : undefined"
+            >
+              <td>
+                {{ notification.createdOn + "Z" | date: "dd/MM/yyyy HH:mm:ss" }}
+              </td>
+              <td>{{ displayNotificationType(notification.type) }}</td>
+              <td>{{ notification.message }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

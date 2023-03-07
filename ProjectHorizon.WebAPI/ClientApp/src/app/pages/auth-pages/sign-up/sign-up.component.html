@@ -1,0 +1,225 @@
+<div class="mb-4 d-flex justify-content-center">
+  <img src="assets/icons/logo-full.svg" />
+</div>
+<div class="card double o-hidden border-0">
+  <div class="card-body p-0">
+    <!-- Nested Row within Card Body -->
+    <div class="row">
+      <div class="col-12 col-lg-6 order-lg-2">
+        <div class="p-4 p-md-5">
+          <div class="text-left">
+            <h1 class="h3 mb-4">Sign up</h1>
+          </div>
+          <form
+            (ngSubmit)="registerForm.form.valid && submit(registerForm)"
+            #registerForm="ngForm"
+            class="user"
+          >
+            <div class="form-group">
+              <input
+                name="firstName"
+                [(ngModel)]="registrationDto.firstName"
+                #firstName="ngModel"
+                required
+                maxlength="50"
+                class="form-control form-control-user"
+                placeholder="First name"
+              />
+              <div
+                *ngIf="
+                  registerForm.submitted &&
+                  (firstName.invalid || !isPersonNameValid(firstName.value))
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="firstName.errors?.required">
+                  First name is required
+                </div>
+                <div *ngIf="!isPersonNameValid(firstName.value)">
+                  First name contains invalid characters
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="lastName"
+                [(ngModel)]="registrationDto.lastName"
+                #lastName="ngModel"
+                required
+                maxlength="50"
+                class="form-control form-control-user"
+                placeholder="Last name"
+              />
+              <div
+                *ngIf="
+                  registerForm.submitted &&
+                  (lastName.invalid || !isPersonNameValid(lastName.value))
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="lastName.errors?.required">
+                  Last name is required
+                </div>
+                <div *ngIf="!isPersonNameValid(lastName.value)">
+                  Last name contains invalid characters
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="email"
+                type="email"
+                [(ngModel)]="registrationDto.email"
+                #email="ngModel"
+                maxlength="256"
+                required
+                pattern="{{ patterns.email }}"
+                class="form-control form-control-user"
+                placeholder="E-mail"
+              />
+              <div
+                *ngIf="registerForm.submitted && email.invalid"
+                class="alert alert-danger"
+              >
+                <div *ngIf="email.errors?.required">Email is required.</div>
+                <div *ngIf="email.errors?.pattern">
+                  Please enter a valid email.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="password"
+                type="password"
+                [(ngModel)]="registrationDto.password"
+                #password="ngModel"
+                maxlength="100"
+                required
+                pattern="{{ patterns.password }}"
+                class="form-control form-control-user"
+                placeholder="Password"
+              />
+              <div
+                *ngIf="registerForm.submitted && password.invalid"
+                class="alert alert-danger"
+              >
+                <div *ngIf="password.errors?.required">
+                  Password is required.
+                </div>
+                <div *ngIf="password.errors?.pattern">
+                  Must contain at least a digit, an uppercase letter, a
+                  lowercase letter, a special character, and at least 6 or more
+                  characters.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="repeatPassword"
+                type="password"
+                [(ngModel)]="registrationDto.repeatPassword"
+                #repeatPassword="ngModel"
+                maxlength="100"
+                required
+                class="form-control form-control-user"
+                placeholder="Repeat password"
+              />
+              <div
+                *ngIf="
+                  registerForm.submitted &&
+                  (repeatPassword.invalid ||
+                    registrationDto.password !== registrationDto.repeatPassword)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="repeatPassword.errors?.required">
+                  Repeat password is required.
+                </div>
+                <div
+                  *ngIf="
+                    registrationDto.repeatPassword &&
+                    registrationDto.password !== registrationDto.repeatPassword
+                  "
+                >
+                  Passwords do not match.
+                </div>
+              </div>
+            </div>
+            <div
+              class="form-group d-flex align-items-center justify-content-between"
+            >
+              <div class="custom-control custom-checkbox small">
+                <input
+                  type="checkbox"
+                  id="customCheck"
+                  name="customCheck"
+                  [(ngModel)]="registrationDto.acceptedTerms"
+                  #acceptedTerms="ngModel"
+                  required
+                  class="custom-control-input"
+                />
+                <label class="custom-control-label" for="customCheck">
+                  I accept the&nbsp;
+                </label>
+                <label class="">
+                  <a role="button" (click)="openTermsAndConditionsModal()">
+                    Terms & Conditions
+                  </a>
+                </label>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                registerForm.submitted &&
+                acceptedTerms.invalid &&
+                acceptedTerms.errors?.required
+              "
+              class="alert alert-danger"
+            >
+              You must accept the Terms & Conditions.
+            </div>
+            <button class="btn btn-primary btn-user btn-block">Continue</button>
+          </form>
+          <div class="hr-label"><span>or</span></div>
+          <button
+            type="button"
+            class="btn btn-primary btn-user btn-block"
+            (click)="azureSignUp()"
+          >
+            <img
+              class="azure-label"
+              src="assets/icons/ms-symbollockup_mssymbol.svg"
+            />
+            <span class="azure-text">Register with Azure AD</span>
+          </button>
+          <div class="text-center default-top-spacer">
+            <a routerLink="/{{ appRoutes.login }}">
+              <span class="mr-2">
+                <!-- <img src="assets/icons/arrow-back.svg" /> -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16.44"
+                  height="10.895"
+                  viewBox="0 0 32.88 21.79"
+                >
+                  <path
+                    class="fill-color"
+                    fill-rule="evenodd"
+                    d="M1870,1403h-24.17l5.48,5.49a1.994,1.994,0,1,1-2.82,2.82l-8.8-8.8a2.256,2.256,0,0,1,0-3.02l8.8-8.8a1.994,1.994,0,1,1,2.82,2.82l-5.48,5.49H1870A2,2,0,0,1,1870,1403Z"
+                    transform="translate(-1839.12 -1390.12)"
+                  />
+                </svg>
+              </span>
+              Go back
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 order-lg-1 grey-bg cta">
+        <div class="p-4 p-md-5">
+          <app-trial-info></app-trial-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

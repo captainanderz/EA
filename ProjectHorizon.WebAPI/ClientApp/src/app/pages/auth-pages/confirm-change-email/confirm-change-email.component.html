@@ -1,0 +1,43 @@
+<div class="card o-hidden border-0">
+  <div class="card-body p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="p-5" [ngSwitch]="confirmationResult">
+          <ng-container *ngSwitchCase="resultStatus.Successful">
+            <div class="text-center">
+              <h1 class="h3 mb-4">Email validated</h1>
+            </div>
+            <div class="page-text">
+              <p>Your email address was successfully confirmed.</p>
+            </div>
+            <button
+              class="btn btn-primary btn-user btn-block"
+              (click)="continue()"
+            >
+              Continue
+            </button>
+          </ng-container>
+          <ng-container *ngSwitchCase="resultStatus.Failed">
+            <div class="text-center">
+              <h1 class="h3 mb-4">Validation failed</h1>
+            </div>
+            <div class="page-text">
+              <p>Something went wrong when trying to confirm your email.</p>
+              <p>Please try to click the link in the email again.</p>
+              <p>
+                If the problem persists, contact support at
+                support@endpointadmin.com
+              </p>
+            </div></ng-container
+          >
+          <ng-container *ngSwitchDefault>
+            <div class="text-center">
+              <h1 class="h3 mb-4">Loading...</h1>
+            </div>
+            <div class="page-text"></div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

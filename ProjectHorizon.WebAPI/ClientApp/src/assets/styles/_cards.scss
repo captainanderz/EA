@@ -1,0 +1,81 @@
+// Custom Card Styling
+
+.card {
+  background-color: $white;
+  border: none;
+  overflow: hidden;
+  &.grey-bg {
+    background-color: $grey-bg;
+  }
+  .grey-bg {
+    background-color: $grey-bg;
+  }
+  .card-header {
+    border: none;
+    background-color: transparent;
+    padding-bottom: 0;
+    img {
+      max-width: 30px;
+      height: auto;
+    }
+    .dropdown {
+      line-height: 1;
+      .dropdown-menu {
+        line-height: 1.5;
+      }
+    }
+  }
+  // Collapsable Card Styling
+  .card-header[data-toggle="collapse"] {
+    text-decoration: none;
+    position: relative;
+    padding: 0.75rem 3.25rem 0.75rem 1.25rem;
+    &::after {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding-right: 1.725rem;
+      line-height: 51px;
+      font-weight: 900;
+    }
+    &.collapsed {
+      border-radius: $card-border-radius;
+    }
+  }
+}
+
+.subscription-details {
+  .card {
+    min-height: 310px;
+    p {
+      margin-bottom: 0;
+      &.info {
+        font-size: 20px;
+        color: $dark-blue;
+        line-height: 1;
+        @extend .sofia-regular;
+      }
+      &.large {
+        color: $dark-blue;
+        font-size: 20px;
+      }
+    }
+    h4 {
+      margin-bottom: 0;
+      line-height: 1;
+    }
+  }
+  .icon-circle {
+    background-color: $dark-blue;
+    height: 50px;
+    width: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    &.logo {
+      svg {
+        max-width: 25px;
+        margin-left: -3px;
+      }
+    }
+  }
+}

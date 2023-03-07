@@ -1,0 +1,81 @@
+<div class="card application-card bg-white rounded hoverable">
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-2">
+        <img
+          class="app-icon"
+          src="{{
+            application.iconBase64 || '../../../assets/images/blank-profile.png'
+          }}"
+        />
+      </div>
+      <div class="col-8">
+        <span class="d-flex flex-column align-items-start mr-3">
+          <h5
+            class="text-dark text-truncate m-0"
+            title="{{ application.name || 'None' }}"
+          >
+            {{ application.name || "None" }}
+          </h5>
+
+          <div
+            class="small text-muted text-truncate"
+            title="{{ application.version || '-' }}"
+          >
+            v {{ application.version || "-" }}
+          </div>
+        </span>
+      </div>
+    </div>
+    <div class="row mb-2 description-height">
+      <div class="col-12 mb-3">
+        <p class="card-text text-wrap text-truncate description-turncate">
+          {{ application.description ?? "DESCRIPTION" }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <a
+          [routerLink]="[
+            '/applications/',
+            application.isPrivate ? 'private' : 'public',
+            application.id
+          ]"
+          class="text-decoration-none block-below-sm mb-3 mb-sm-0"
+        >
+          <a
+            class="text-decoration-none block-below-sm mb-3 mb-sm-0"
+            (click)="
+              $event.preventDefault();
+              $event.stopPropagation();
+              openDetailsModal()
+            "
+          >
+            Learn more
+          </a>
+        </a>
+      </div>
+      <div class="col-sm-6 d-flex justify-content-end">
+        <button
+          (click)="request()"
+          class="btn btn-primary block-below-sm"
+          [disabled]="
+            application.requestState == RequestState.Pending ||
+            application.requestState == RequestState.Accepted
+          "
+        >
+          <ng-container [ngSwitch]="application.requestState">
+            <ng-container *ngSwitchCase="RequestState.Pending">
+              Pending
+            </ng-container>
+            <ng-container *ngSwitchCase="RequestState.Accepted">
+              Accepted
+            </ng-container>
+            <ng-container *ngSwitchDefault> Request </ng-container>
+          </ng-container>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

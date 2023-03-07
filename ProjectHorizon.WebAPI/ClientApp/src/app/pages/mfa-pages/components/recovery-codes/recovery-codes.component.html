@@ -1,0 +1,19 @@
+<div class="col-12">
+  <div *ngIf="showActivated">
+    <h3>Two-factor authentication has been activated!</h3>
+  </div>
+  <h5>
+    <p>
+      <strong>Put these codes in a safe place.</strong>
+    </p>
+    <p>
+      If you lose your device and don't have the recovery codes you will not be
+      able to access your account.
+    </p>
+  </h5>
+</div>
+<ul class="list-group text-center col-6">
+  <li class="list-group-item" *ngFor="let code of newCodes">
+    <strong>{{ code }}</strong>
+  </li>
+</ul>

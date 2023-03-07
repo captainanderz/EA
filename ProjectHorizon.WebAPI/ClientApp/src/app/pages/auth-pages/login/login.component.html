@@ -1,0 +1,97 @@
+<div class="card o-hidden border-0">
+  <div class="card-body p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="p-5">
+          <div class="text-center">
+            <h1 class="h3 mb-4">Login to continue</h1>
+          </div>
+          <form
+            (ngSubmit)="loginForm.form.valid && submit()"
+            #loginForm="ngForm"
+            class="user"
+          >
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="loginDto.email"
+                #email="ngModel"
+                maxlength="256"
+                required
+                class="form-control form-control-user"
+                placeholder="Email"
+              />
+              <div
+                *ngIf="
+                  loginForm.submitted && email.invalid && email.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                Email is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                name="password"
+                [(ngModel)]="loginDto.password"
+                #password="ngModel"
+                maxlength="100"
+                required
+                class="form-control form-control-user"
+                placeholder="Password"
+              />
+              <div
+                *ngIf="
+                  loginForm.submitted &&
+                  password.invalid &&
+                  password.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                Password is required.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-user btn-block">
+              Login
+            </button>
+            <div
+              class="form-group d-flex align-items-center justify-content-between"
+            >
+              <div class="custom-control custom-checkbox small"></div>
+              <div class="text-center">
+                <a class="small" routerLink="" (click)="goToForgotPassword()"
+                >Forgot Password?</a
+              >
+              </div>              
+            </div>
+            <div
+              *ngIf="errorMessage"
+              class="alert alert-danger text-center mt-3"
+            >
+              {{ errorMessage }}
+            </div>
+            <div class="hr-label"><span>or</span></div>
+            <button
+              type="button"
+              class="btn btn-primary btn-user btn-block"
+              (click)="azureLogin()"
+            >
+              <img
+                class="azure-label"
+                src="assets/icons/ms-symbollockup_mssymbol.svg"
+              />
+              <span class="azure-text">Login with Azure AD</span>
+            </button>
+            <div class="mt-3 text-center">
+              <a routerLink="/{{ appRoutes.signUp }}" class="small"
+                >Don’t have an account? Try 30 days for free</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

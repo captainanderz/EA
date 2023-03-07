@@ -1,0 +1,162 @@
+// Modals
+.modal {
+  z-index: 1050;
+}
+.modal-header {
+  border-bottom: none;
+  padding: 30px 40px 0;
+  .close {
+    opacity: 0.2;
+    margin: 10px 0;
+    padding: 0;
+    outline: none;
+    svg {
+      .fill-color {
+        fill: #606060;
+      }
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.modal-body {
+  padding: 20px 40px;
+}
+.modal-footer {
+  padding: 20px 30px 30px;
+}
+
+.modal-steps {
+  .divider {
+    width: 100%;
+    margin-left: 1px;
+  }
+  .nav {
+    .number {
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius;
+      background-color: $grey-bg;
+      color: $dark-grey;
+    }
+    p {
+      color: $dark-grey;
+      margin-bottom: 0;
+      @extend .sofia-regular;
+    }
+    li {
+      padding: 0;
+      a {
+        &.active {
+          .number {
+            background-color: $dark-blue;
+            color: $blue;
+          }
+          p {
+            color: $dark-blue;
+          }
+        }
+      }
+    }
+  }
+  .upload-area {
+    border: 2px dashed $grey;
+    border-radius: $border-radius;
+    height: 295px;
+    .btn {
+      margin: 0 auto;
+      color: $dark-blue;
+    }
+    p {
+      margin-bottom: 0;
+    }
+    &.small {
+      height: 80px;
+      width: 80px;
+    }
+  }
+  .uploading-content {
+    .icon-box {
+      height: 60px;
+      width: 60px;
+      min-width: 60px;
+      background-color: $grey-bg;
+      border-radius: $border-radius;
+    }
+    p {
+      margin-bottom: 0;
+      &.name {
+        @extend .sofia-semibold;
+        color: $dark-blue;
+      }
+      &.comment {
+        font-size: 13px;
+      }
+    }
+    .uploading-bar {
+      height: 4px;
+      border-radius: 2px;
+      background-color: $light-grey;
+      position: relative;
+      .bar {
+        background-color: $green;
+        border-radius: 2px;
+        height: 4px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
+.modal-trigger {
+  cursor: pointer;
+}
+
+.modal-info {
+  &.modal-dialog {
+    max-width: 640px;
+  }
+  .modal-header {
+    p {
+      color: $dark-grey;
+      margin-bottom: 0;
+    }
+    .small-btn {
+      padding: 0 9px;
+      height: 40px;
+      svg {
+        .fill-color {
+          fill: $blue;
+        }
+      }
+      &:hover {
+        background-color: $blue;
+        border-color: $blue;
+        svg {
+          .fill-color {
+            fill: $white;
+          }
+        }
+      }
+    }
+  }
+  .modal-title {
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .icon {
+    max-width: 45px;
+  }
+  label {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
+    @extend .sofia-semibold;
+  }
+  p {
+    color: $dark-blue;
+  }
+}

@@ -1,0 +1,161 @@
+<div class="container-fluid mt-4 table-layout">
+  <div class="row justify-content-between mb-4 pl-3 pr-3">
+    <div class="col-auto">
+      <h3 class="">Audit Log</h3>
+    </div>
+    <div class="col-auto">
+      <div class="row justify-content-end">
+        <div class="col-auto mb-3 mb-lg-0">
+          <form class="row">
+            <div class="col">
+              <div class="dp-hidden position-absolute">
+                <div class="input-group">
+                  <input
+                    name="datepicker"
+                    class="form-control p-0 dp-hidden"
+                    ngbDatepicker
+                    #datepicker="ngbDatepicker"
+                    [autoClose]="'outside'"
+                    (dateSelect)="onDateSelection($event)"
+                    [displayMonths]="2"
+                    [dayTemplate]="t"
+                    outsideDays="hidden"
+                    [startDate]="fromDate!"
+                    tabindex="-1"
+                  />
+                  <ng-template #t let-date let-focused="focused">
+                    <span
+                      class="custom-day"
+                      [class.focused]="focused"
+                      [class.range]="isRange(date)"
+                      [class.faded]="isHovered(date) || isInside(date)"
+                      (mouseenter)="hoveredDate = date"
+                      (mouseleave)="hoveredDate = null"
+                    >
+                      {{ date.day }}
+                    </span>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">From</span>
+                  </div>
+                  <input
+                    #dpFromDate
+                    class="form-control fix-38px"
+                    placeholder="dd/mm/yyyy"
+                    name="dpFromDate"
+                    [value]="format(fromDate)"
+                    (input)="tryUpdateFromDate(dpFromDate.value)"
+                    maxlength="10"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary calendar"
+                      (click)="datepicker.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group ml-2">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">To</span>
+                  </div>
+                  <input
+                    #dpToDate
+                    class="form-control fix-38px"
+                    placeholder="dd/mm/yyyy"
+                    name="dpToDate"
+                    [value]="format(toDate)"
+                    (input)="tryUpdateToDate(dpToDate.value)"
+                    maxlength="10"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary calendar"
+                      (click)="datepicker.toggle()"
+                      type="button"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-auto">
+          <div class="input-group">
+            <select
+              [(ngModel)]="category"
+              (ngModelChange)="update()"
+              class="form-control bulk-actions-select"
+            >
+              <option *ngFor="let category of allCategories">
+                {{ category }}
+              </option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-primary" (click)="downloadCsv()">
+                Download log
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>
+                <div class="th-inner">Date</div>
+              </th>
+              <th>
+                <div class="th-inner">User</div>
+              </th>
+              <th>
+                <div class="th-inner">Source IP</div>
+              </th>
+              <th>
+                <div class="th-inner">Action</div>
+              </th>
+              <th>
+                <div class="th-inner">Category</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let auditLog of auditLogs">
+              <td>
+                {{ auditLog.modifiedOn + "Z" | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+              <td>{{ auditLog.user }}</td>
+              <td>{{ auditLog.sourceIP }}</td>
+              <td>{{ auditLog.actionText }}</td>
+              <td>{{ auditLog.category }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

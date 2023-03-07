@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-4">
+      <div ngbDropdown class="d-inline-block">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          [(ngModel)]="stateFilter"
+          (change)="update()"
+        >
+          <option value="0" selected>All</option>
+          <option value="1">Accepted</option>
+          <option value="2">Rejected</option>
+          <option value="3">Pending</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="border rounded mb-4">
+    <table class="table table-borderless mb-0">
+      <thead class="bg-primary">
+        <tr class="text-light">
+          <th scope="col">Application</th>
+          <th scope="col">Requester</th>
+          <th scope="col">State</th>
+          <th scope="col">Last updated</th>
+          <th scope="col">Created</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody class="mx-5" *ngIf="requests.length > 0">
+        <ng-template ngFor let-request [ngForOf]="requests">
+          <tr
+            [class.border-bottom]="request !== null"
+            [class.hover]="request?.stateId == RequestState.Pending"
+            [class.bg-gray-200]="request?.stateId != RequestState.Pending"
+          >
+            <td>{{ request?.applicationName }}</td>
+            <td>{{ request?.requesterName }}</td>
+            <td
+              [ngClass]="{
+                'text-success': request?.stateId == RequestState.Accepted,
+                'text-danger': request?.stateId == RequestState.Rejected
+              }"
+            >
+              {{ RequestState[request!.stateId] }}
+            </td>
+            <td>{{ request?.modifiedOn | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td>{{ request?.createdOn | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td>
+              <div
+                class="d-flex align-items-center"
+                *ngIf="isEnabled(request!)"
+              >
+                <button
+                  type="button"
+                  class="btn transparent mr-2 border-0 btn-hidden"
+                  (click)="onApproveRequest(request!)"
+                >
+                  <img src="assets/icons/checkmark.svg" />
+                </button>
+                <button
+                  type="button"
+                  class="btn transparent border-0 btn-hidden"
+                  (click)="onRejectRequest(request!)"
+                >
+                  <img src="assets/icons/reject.svg" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+      <tfoot *ngIf="requests.length == 0">
+        <tr>
+          <td colspan="3">
+            <span class="text-muted text-center mx-auto">
+              No requests found
+            </span>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-end">
+      <ngb-pagination
+        [(page)]="pageNumber"
+        [pageSize]="pageSize"
+        [maxSize]="3"
+        [boundaryLinks]="true"
+        [collectionSize]="allItemsCount"
+        (pageChange)="pageChange()"
+      >
+      </ngb-pagination>
+    </div>
+  </div>
+</div>

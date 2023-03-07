@@ -1,0 +1,156 @@
+<div class="card o-hidden">
+  <div class="card-body p-0">
+    <ng-container
+      *ngIf="!registerSubmitted; else registrationInformationTemplate"
+    >
+      <div class="row">
+        <div class="col-12">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-2">Activate account</h1>
+              <p class="mb-4">Choose a password for your account.</p>
+            </div>
+            <form
+              (ngSubmit)="
+                registerInvitationForm.form.valid &&
+                  submit(registerInvitationForm)
+              "
+              #registerInvitationForm="ngForm"
+              class="user"
+            >
+              <div class="form-group">
+                <input
+                  name="password"
+                  type="password"
+                  [(ngModel)]="registerInvitationDto.password"
+                  #password="ngModel"
+                  maxlength="100"
+                  required
+                  pattern="{{ patterns.password }}"
+                  class="form-control form-control-user"
+                  placeholder="Password"
+                />
+                <div
+                  *ngIf="registerInvitationForm.submitted && password.invalid"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="password.errors?.required">
+                    Password is required.
+                  </div>
+                  <div *ngIf="password.errors?.pattern">
+                    Must contain at least a digit, an uppercase letter, a
+                    lowercase letter, a special character, and at least 6 or
+                    more characters.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  name="repeatPassword"
+                  type="password"
+                  [(ngModel)]="registerInvitationDto.repeatPassword"
+                  #repeatPassword="ngModel"
+                  maxlength="100"
+                  required
+                  class="form-control form-control-user"
+                  placeholder="Repeat password"
+                />
+                <div
+                  *ngIf="
+                    registerInvitationForm.submitted &&
+                    (repeatPassword.invalid ||
+                      registerInvitationDto.password !==
+                        registerInvitationDto.repeatPassword)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="repeatPassword.errors?.required">
+                    Repeat password is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      registerInvitationDto.password !==
+                      registerInvitationDto.repeatPassword
+                    "
+                  >
+                    Passwords do not match.
+                  </div>
+                </div>
+              </div>
+              <div
+                class="form-group d-flex align-items-center justify-content-between"
+              >
+                <div class="custom-control custom-checkbox small">
+                  <input
+                    type="checkbox"
+                    id="customCheck"
+                    name="customCheck"
+                    [(ngModel)]="registerInvitationDto.acceptedTerms"
+                    #acceptedTerms="ngModel"
+                    required
+                    class="custom-control-input"
+                  />
+                  <label class="custom-control-label" for="customCheck">
+                    I accept the&nbsp;
+                  </label>
+                  <label class="">
+                    <a role="button" (click)="openTermsAndConditionsModal()">
+                      Terms & Conditions
+                    </a>
+                  </label>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  registerInvitationForm.submitted &&
+                  acceptedTerms.invalid &&
+                  acceptedTerms.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                You must accept the Terms & Conditions.
+              </div>
+              <button class="btn btn-primary btn-user btn-block">
+                Continue
+              </button>
+            </form>
+            <div class="hr-label"><span>or</span></div>
+            <button
+              type="button"
+              class="btn btn-primary btn-user btn-block"
+              (click)="azureRegistration()"
+            >
+              <img
+                class="azure-label"
+                src="assets/icons/ms-symbollockup_mssymbol.svg"
+              />
+              <span class="azure-text">Register with Azure AD</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #registrationInformationTemplate>
+      <div class="row">
+        <div class="col-12">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h3 mb-4">{{ registrationDisplayTitle }}</h1>
+            </div>
+            <div class="page-text">
+              <p>{{ registrationDisplayInformation }}</p>
+              <button
+                *ngIf="displayLoginButton"
+                type="button"
+                (click)="goToLogin()"
+                class="btn btn-primary btn-user btn-block"
+              >
+                Go to Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div></ng-template
+    >
+  </div>
+</div>

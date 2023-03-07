@@ -1,0 +1,819 @@
+<!-- Begin Page Content -->
+<div class="container-fluid mt-4 table-layout">
+  <!-- Page Heading -->
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-auto">
+      <div class="col-lg">
+        <p class="mb-0">Applications/</p>
+        <h3 class="mb-2">Public Repository</h3>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="row justify-content-end">
+        <div class="d-flex align-items-center justify-content-end input-group">
+          <div class="col-auto">
+            <div class="text-center d-flex justify-content-center flex-wrap">
+              <label class="custom-toggle mb-lg-0 order-2">
+                <input
+                  type="checkbox"
+                  name="manualapprove"
+                  [disabled]="loggedInUser.userRole == userRole.Reader"
+                  [checked]="subscriptionDto.globalManualApprove"
+                  (click)="toggleGlobalManualApprove($event)"
+                />
+                <div class="toggle">
+                  <div class="dot"></div>
+                </div>
+              </label>
+              <p class="label checked order-1 w-100 mb-2 align-top">
+                Manual approve
+              </p>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div
+              class="text-center d-flex justify-content-center flex-wrap mr-2"
+            >
+              <label
+                [class.pointer-events-none]="
+                  loggedInUser.userRole === userRole.Reader
+                "
+                class="custom-toggle mb-lg-0 order-2"
+              >
+                <input
+                  type="checkbox"
+                  name="autoupdate"
+                  [disabled]="loggedInUser.userRole == userRole.Reader"
+                  [checked]="subscriptionDto.globalAutoUpdate"
+                  (click)="toggleGlobalAutoUpdate($event)"
+                />
+                <div class="toggle">
+                  <div class="dot"></div>
+                </div>
+              </label>
+              <p class="label checked order-1 w-100 mb-2 align-top">
+                Auto update
+              </p>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              loggedInUser?.userRole != userRole.Reader &&
+              loggedInUser?.userRole != userRole.SuperAdmin
+            "
+            class="col-auto"
+          >
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyBulkActions()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option>Assign assignment profile</option>
+              <option>Clear assigned assignment profile</option>
+              <option>Assign deployment schedule</option>
+              <option>Clear assigned deployment schedule</option>
+              <option>Delete deployment schedule patch-app</option>
+              <option>Deploy</option>
+              <option>Download</option>
+            </app-bulk-actions>
+          </div>
+          <div
+            *ngIf="
+              loggedInUser?.userRole != userRole.Reader &&
+              loggedInUser?.userRole == userRole.SuperAdmin
+            "
+            class="col-auto"
+          >
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyBulkActions()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option>Assign assignment profile</option>
+              <option>Clear assigned assignment profile</option>
+              <option>Assign deployment schedule</option>
+              <option>Clear assigned deployment schedule</option>
+              <option>Delete deployment schedule patch-app</option>
+              <option>Deploy</option>
+              <option>Download</option>
+              <option>Delete</option>
+            </app-bulk-actions>
+          </div>
+          <div class="col-auto">
+            <ng-container
+              *ngIf="loggedInUser?.userRole === userRole.SuperAdmin"
+            >
+              <button
+                type="button"
+                class="btn btn-success w-icon w-100"
+                (click)="openApplicationUploadModal()"
+              >
+                <div class="d-flex align-items-center">
+                  <div class="icon mr-2">
+                    <!-- <img src="../../../assets/icons/plus.svg" /> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 32 32"
+                    >
+                      <path
+                        fill="#fff"
+                        fill-rule="evenodd"
+                        d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                        transform="translate(-3449 -249)"
+                      />
+                    </svg>
+                  </div>
+                  <span class="text-truncate">New application</span>
+                </div>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="table-responsive">
+        <table class="table table-borderless table-bordered table-hover w-100">
+          <thead>
+            <tr>
+              <th
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <div class="th-inner">
+                  <label>
+                    <container-element [ngSwitch]="getSelectionState()">
+                      <input
+                        *ngSwitchCase="SelectionState.None"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.Partial"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="true"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.All"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="true"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                    </container-element>
+                  </label>
+                </div>
+                <div class="fht-cell"></div>
+              </th>
+              <th><div class="th-inner">Icon</div></th>
+              <th>
+                <div class="th-inner">Application</div>
+              </th>
+              <th>
+                <div class="th-inner">
+                  Arch
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>32-bit or 64-bit</p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Version
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>Newest version in Endpoint Admin</p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Status
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>The deployment status</p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Shop
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        Indicates if an application is displayed in the shop
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th class="text-center">
+                <div class="th-inner">
+                  Manual
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        When this toggle is on, the newest version needs your
+                        approval in order to be deployed to Endpoint Manager.
+                        The option is not available if a deployment schedule is
+                        assigned.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th class="text-center">
+                <div class="th-inner">
+                  Auto update
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        When this toggle is on, the newest version is
+                        automatically deployed to Endpoint Manager or the
+                        deployment schedule is triggered, if any assigned.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Assignment profile
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>The profile that was assigned to the application</p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Deployment schedule
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        The deployment schedule that was assigned to the
+                        application, deploying application in stages to
+                        configured groups
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Current Phase
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        The phase the application is currently in during its
+                        deployment schedule process
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Phase State
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        Shows if a deployment schedule phase is currently in
+                        progress. Removing a deployment schedule is not possible
+                        until the phase state is finished
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th>
+                <div class="th-inner">
+                  Last updated
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>When the newest version was added to the repository</p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let application of pagedItems; index as i">
+              <td
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <label>
+                  <input
+                    #selectPublicApplication
+                    name="btSelectItem"
+                    type="checkbox"
+                    [checked]="isItemSelected(application.id)"
+                    (change)="toggleSelectItem(application.id)"
+                  />
+                </label>
+              </td>
+              <td>
+                <span class="icon mr-2">
+                  <img [src]="application.iconBase64" />
+                </span>
+              </td>
+              <td>
+                <span class="name">{{ application.name }}</span>
+              </td>
+              <td>{{ displayArchitecture(application.architecture) }}</td>
+              <td>
+                {{ application.version }}
+              </td>
+              <td>
+                <span
+                  [ngSwitch]="application.deploymentStatus"
+                  class="ml-2 small-icon"
+                >
+                  <img
+                    *ngSwitchCase="deploymentStatus.InProgress"
+                    src="../../../assets/icons/clock-circle.svg"
+                    title="In progress"
+                  />
+                  <img
+                    *ngSwitchCase="deploymentStatus.SuccessfulUpToDate"
+                    src="/assets/icons/success-circle.svg"
+                    title="Newest version is up to date in Endpoint Manager"
+                  />
+                  <ng-container
+                    *ngSwitchCase="deploymentStatus.SuccessfulNotUpToDate"
+                  >
+                    <img
+                      *ngIf="
+                        application.assignedDeploymentScheduleInProgress;
+                        else elseBlock
+                      "
+                      src="/assets/icons/clock-circle2.svg"
+                      title="Deployment schedule in progress"
+                    />
+                    <ng-template #elseBlock>
+                      <img
+                        src="/assets/icons/warning-circle.svg"
+                        title="Needs approval or not updated yet"
+                      />
+                    </ng-template>
+                  </ng-container>
+
+                  <img
+                    *ngSwitchCase="deploymentStatus.Failed"
+                    src="/assets/icons/error-circle.svg"
+                    title="Failed to deploy to Endpoint Manager"
+                  />
+
+                  <img
+                    *ngSwitchCase="undefined"
+                    src="../../../assets/icons/empty-circle.svg"
+                    title="Not deployed"
+                  />
+                </span>
+              </td>
+
+              <td>
+                <span [ngSwitch]="application.isInShop" class="ml-2 small-icon">
+                  <img
+                    *ngSwitchCase="true"
+                    src="../../../assets/icons/success-circle.svg"
+                    title="Displayed in the shop"
+                  />
+                  <img
+                    *ngSwitchCase="false"
+                    src="../../../assets/icons/empty-circle.svg"
+                    title="Not displayed in the shop"
+                  />
+                </span>
+              </td>
+
+              <td class="text-center">
+                <label
+                  *ngIf="application.deploymentStatus"
+                  class="custom-toggle mb-0"
+                >
+                  <input
+                    type="checkbox"
+                    name="manualapprove"
+                    [checked]="application.manualApprove"
+                    [disabled]="
+                      loggedInUser.userRole == userRole.Reader ||
+                      application.assignedDeploymentSchedule
+                    "
+                    (change)="togglePublicApplicationManualApprove(i)"
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+
+              <td class="text-center">
+                <label
+                  *ngIf="application.deploymentStatus"
+                  class="custom-toggle mb-0"
+                >
+                  <input
+                    type="checkbox"
+                    name="autoupdate"
+                    [checked]="application.autoUpdate"
+                    [disabled]="loggedInUser.userRole === userRole.Reader"
+                    (click)="togglePublicApplicationAutoUpdate($event, i)"
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+
+              <td>{{ application.assignedProfileName || "" }}</td>
+
+              <td>{{ application.assignedDeploymentSchedule?.name || "" }}</td>
+
+              <td>
+                {{ application.assignedDeploymentSchedulePhaseName || "" }}
+              </td>
+
+              <td>
+                {{
+                  (application.assignedDeploymentSchedulePhaseState !=
+                    phaseState.NotSet &&
+                    phaseState[
+                      application.assignedDeploymentSchedulePhaseState
+                    ]) ||
+                    ""
+                }}
+              </td>
+
+              <td>{{ application.modifiedOn | date : "dd/MM/yyyy" }}</td>
+
+              <td class="text-right">
+                <div class="nav-item dropdown no-arrow table-dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <img src="../../../assets/icons/more-icon.svg" />
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-right shadow"
+                    aria-labelledby="userDropdown"
+                  >
+                    <ng-container
+                      *ngIf="loggedInUser?.userRole !== userRole.Reader"
+                    >
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress
+                        "
+                        class="dropdown-item"
+                        (click)="
+                          startAssignmentProfileAssignment(application.id)
+                        "
+                        >Assign profile</a
+                      >
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress
+                        "
+                        class="dropdown-item"
+                        (click)="
+                          startAssignedAssignmentProfileClear(application.id)
+                        "
+                        >Clear assigned profile</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress ||
+                          application.assignedDeploymentScheduleInProgress
+                        "
+                        class="dropdown-item"
+                        (click)="
+                          startDeploymentScheduleAssignment(application.id)
+                        "
+                        >Assign deployment schedule</a
+                      >
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress ||
+                          application.assignedDeploymentSchedulePhaseState ==
+                            phaseState.InProgress
+                        "
+                        class="dropdown-item"
+                        (click)="
+                          startAssignedDeploymentScheduleClear(application.id)
+                        "
+                        >Clear deployment schedule</a
+                      >
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress ||
+                          application.assignedDeploymentScheduleInProgress
+                        "
+                        class="dropdown-item"
+                        (click)="
+                          startDeploymentSchedulePatchAppDelete(application.id)
+                        "
+                        >Delete patch-app instance</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed ||
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress
+                        "
+                        *ngIf="!application.isInShop"
+                        class="dropdown-item"
+                        (click)="addToShop(application)"
+                      >
+                        Add to shop
+                      </a>
+                      <a
+                        [class.disabled]="
+                          !application.deploymentStatus ||
+                          application.deploymentStatus ==
+                            deploymentStatus.Failed
+                        "
+                        *ngIf="application.isInShop"
+                        class="dropdown-item"
+                        (click)="removeFromShop(application)"
+                      >
+                        Remove from shop
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a
+                        [class.disabled]="
+                          application.deploymentStatus ==
+                            deploymentStatus.InProgress ||
+                          application.assignedDeploymentScheduleInProgress
+                        "
+                        class="dropdown-item"
+                        (click)="startDeploySingleApplication(application)"
+                        >Deploy</a
+                      >
+                    </ng-container>
+                    <a
+                      class="dropdown-item"
+                      [class.disabled]="
+                        !UserDto.currentSubscription(loggedInUser)
+                          .azureIntegrationDone
+                      "
+                      (click)="startDownloadApplication(application.id)"
+                      >Download</a
+                    >
+                    <a
+                      *ngIf="loggedInUser?.userRole === userRole.SuperAdmin"
+                      class="dropdown-item"
+                      (click)="deleteApplication(application)"
+                      >Delete</a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

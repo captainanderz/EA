@@ -1,0 +1,20 @@
+<div class="container-fluid mt-4 table-layout">
+  <div
+    class="mb-4 px-3"
+  >
+    <div class="">
+      <h1 class="mb-2">Terms & Conditions</h1>
+      <p class="mb-0">version {{ termsVersion }}</p>
+    </div>
+  </div>
+  <div
+    id="termsAndConditionsPage"
+    class="px-3 mb-4"
+    [innerHtml]="termsAndConditionsText"
+  ></div>
+  <div class="footer text-right pb-3">
+    <button type="submit" class="btn btn-primary btn-lg" (click)="onAccept()">
+      Accept
+    </button>
+  </div>
+</div>

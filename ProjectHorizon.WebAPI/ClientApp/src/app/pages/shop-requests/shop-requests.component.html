@@ -1,0 +1,125 @@
+<div class="container-fluid mt-4 table-layout">
+  <div class="row mb-4 pl-3 pr-3 justify-content-between">
+    <div class="col-auto">
+      <div class="col">
+        <h3 class="mb-2">Shop Requests</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row justify-content-end">
+        <div class="row justify-content-start">
+          <div class="col-12 col-lg-auto mb-2 mb-lg-0">
+            <div ngbDropdown class="d-inline-block">
+              <select
+                class="form-control bulk-actions-select w-100"
+                aria-label="Default select example"
+                [(ngModel)]="stateFilter"
+                (change)="onSelectState()"
+              >
+                <option value="0">All</option>
+                <option value="1">Accepted</option>
+                <option value="2">Rejected</option>
+                <option value="3" selected>Pending</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="table-responsive">
+        <table class="table-borderless table table-bordered table-hover w-10">
+          <thead>
+            <tr>
+              <th>
+                <div class="th-inner">Application</div>
+              </th>
+              <th>
+                <div class="th-inner">Requester</div>
+              </th>
+              <th>
+                <div class="th-inner">State</div>
+              </th>
+              <th>
+                <div class="th-inner">Last updated</div>
+              </th>
+              <th>
+                <div class="th-inner">Created</div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let shopRequest of pagedItems"
+              [class.bg-light]="!isEnabled(shopRequest)"
+            >
+              <td>
+                <span>{{ shopRequest.applicationName }}</span>
+              </td>
+              <td
+                style="max-width: 3rem"
+                class="text-truncate"
+                title="{{ shopRequest?.requesterName || 'None' }}"
+              >
+                {{ shopRequest?.requesterName || "None" }}
+              </td>
+              <td
+                [ngClass]="{
+                  'text-success': shopRequest.stateId == RequestState.Accepted,
+                  'text-danger': shopRequest.stateId == RequestState.Rejected
+                }"
+              >
+                {{ RequestState[shopRequest.stateId] }}
+              </td>
+              <td>
+                {{ shopRequest.modifiedOn + "Z" | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+              <td>
+                {{ shopRequest.createdOn + "Z" | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+              <td>
+                <div
+                  class="hidden-btns"
+                  *ngIf="
+                    loggedInUser?.userRole !== userRole.Reader &&
+                    isEnabled(shopRequest)
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <button
+                      type="button"
+                      class="btn-small transparent mr-2"
+                      (click)="onApproveRequest(shopRequest)"
+                    >
+                      <img src="assets/icons/checkmark.svg" />
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-small transparent"
+                      (click)="onRejectRequest(shopRequest)"
+                    >
+                      <img src="assets/icons/reject.svg" />
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

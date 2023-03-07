@@ -1,0 +1,269 @@
+<div class="container-fluid mt-4 table-layout">
+  <!--Title-->
+  <div class="mb-4 px-3">
+    <p class="mb-0">Applications/Assignment Profiles/</p>
+    <ng-container [ngSwitch]="action">
+      <h3 class="mb-2" *ngSwitchCase="Action.New">New</h3>
+      <h3 class="mb-2" *ngSwitchCase="Action.Edit">Edit</h3>
+      <h3 class="mb-2" *ngSwitchCase="Action.Details">Details</h3>
+    </ng-container>
+  </div>
+
+  <fieldset [disabled]="action == Action.Details ? 'disabled' : null">
+    <!--Name textbox-->
+    <div class="px-3">
+      <div class="mb-5">
+        <form
+          (ngSubmit)="(nameForm.form.valid)"
+          #nameForm="ngForm"
+          id="nameForm"
+        >
+          <input
+            [class.is-invalid]="nameForm.submitted && nameInput.errors"
+            name="nameInput"
+            class="form-control form-control-lg w-50"
+            #nameInput="ngModel"
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="Assignment Profile Name"
+            [(ngModel)]="assignmentProfileName"
+            ngbAutofocus
+            maxlength="40"
+            required
+          />
+          <div
+            *ngIf="nameForm.submitted && nameInput.errors?.required"
+            class="text-danger"
+          >
+            <div *ngIf="nameInput.errors?.required">Name is required</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--Table-->
+    <div *ngFor="let assignmentType of assignmentTypes">
+      <h2 class="h4 px-3">{{ assignmentTypeToString(assignmentType) }}</h2>
+      <div class="bootstrap-table bootstrap4">
+        <div class="fixed-table-container mb-3">
+          <div class="table-responsive">
+            <table class="table-borderless table table-bordered">
+              <thead>
+                <tr class="">
+                  <th>
+                    <div class="th-inner"></div>
+                  </th>
+                  <th>
+                    <div class="th-inner">Mode</div>
+                  </th>
+                  <th>
+                    <div class="th-inner">Group</div>
+                  </th>
+                  <th>
+                    <div class="th-inner">End users notifications</div>
+                  </th>
+                  <th>
+                    <div class="th-inner">Delivery optimization priority</div>
+                  </th>
+                  <th>
+                    <div class="th-inner"></div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let group of getGroups(assignmentType); index as i">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    <select
+                      style="width: 7rem"
+                      *ngIf="group.azureGroupId"
+                      class="form-control"
+                      (ngModelChange)="
+                        onGroupModeChange(
+                          group.azureGroupId,
+                          assignmentType,
+                          $event
+                        )
+                      "
+                      [(ngModel)]="getGroups(assignmentType)[i].groupModeId"
+                    >
+                      <option value="1">Included</option>
+                      <option value="2">Excluded</option>
+                    </select>
+
+                    <select
+                      *ngIf="!group.azureGroupId"
+                      class="form-control select-width"
+                      disabled="true"
+                    >
+                      <option selected value="1">Included</option>
+                      <option value="2">Excluded</option>
+                    </select>
+                  </td>
+                  <td
+                    class="text-truncate"
+                    title="{{ group.displayName }}"
+                    style="width: 24rem; max-width: 24rem"
+                  >
+                    {{ group.displayName }}
+                  </td>
+                  <td>
+                    <select
+                      style="width: 24rem"
+                      class="form-control"
+                      [(ngModel)]="
+                        getGroups(assignmentType)[i].endUserNotificationId
+                      "
+                    >
+                      <option value="1">Show all toast notifications</option>
+                      <option value="2">
+                        Show toast notifications for computer restart
+                      </option>
+                      <option value="3">Hide all toast notifications</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select
+                      style="width: 18rem"
+                      class="form-control"
+                      [(ngModel)]="
+                        getGroups(assignmentType)[i]
+                          .deliveryOptimizationPriorityId
+                      "
+                    >
+                      <option value="1">Content download in background</option>
+                      <option value="2">Content download in foreground</option>
+                    </select>
+                  </td>
+                  <td>
+                    <a
+                      *ngIf="group.azureGroupId && action != Action.Details"
+                      role="button"
+                      (click)="removeGroup(assignmentType, group.azureGroupId)"
+                      class="text-danger pe-auto"
+                    >
+                      Remove
+                    </a>
+
+                    <a
+                      *ngIf="!group.azureGroupId && action != Action.Details"
+                      role="button"
+                      (click)="
+                        removeGroupByGroupMode(
+                          assignmentType,
+                          group.groupModeId
+                        )
+                      "
+                      class="text-danger pe-auto"
+                    >
+                      Remove
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="mb-5 px-3">
+        <button
+          type="button"
+          class="btn btn-primary btn-sm mr-3"
+          (click)="openAddGroupModal(assignmentType)"
+        >
+          <div class="d-flex align-items-center">
+            <div class="icon mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#fff"
+                  fill-rule="evenodd"
+                  d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                  transform="translate(-3449 -249)"
+                />
+              </svg>
+            </div>
+            Add group
+          </div>
+        </button>
+        <button
+          [disabled]="checkGroupModeExists(GroupMode.AllUsers)"
+          type="button"
+          class="btn btn-primary btn-sm mr-3"
+          (click)="addAllUsers(assignmentType)"
+        >
+          <div class="d-flex align-items-center">
+            <div class="icon mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#fff"
+                  fill-rule="evenodd"
+                  d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                  transform="translate(-3449 -249)"
+                />
+              </svg>
+            </div>
+            Add all users
+          </div>
+        </button>
+        <button
+          *ngIf="assignmentType != AssignmentType.Available"
+          type="button"
+          class="btn btn-primary btn-sm mr-3"
+          [disabled]="checkGroupModeExists(GroupMode.AllDevices)"
+          (click)="addAllDevices(assignmentType)"
+        >
+          <div class="d-flex align-items-center">
+            <div class="icon mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#fff"
+                  fill-rule="evenodd"
+                  d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                  transform="translate(-3449 -249)"
+                />
+              </svg>
+            </div>
+            Add all devices
+          </div>
+        </button>
+      </div>
+    </div>
+  </fieldset>
+
+  <hr />
+
+  <div class="footer text-right pb-3">
+    <button
+      class="btn btn-outline-primary mr-4"
+      type="button"
+      (click)="onCancel()"
+    >
+      {{ action == Action.Details ? "Back" : "Cancel" }}
+    </button>
+    <button
+      *ngIf="action != Action.Details"
+      type="submit"
+      form="nameForm"
+      class="btn btn-primary"
+      (click)="onSubmit()"
+    >
+      Save
+    </button>
+  </div>
+</div>

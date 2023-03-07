@@ -1,0 +1,23 @@
+<div
+  class="input-group bulk-actions-select justify-content-end mb-1 mb-lg-0 mr-0 mr-xl-2"
+>
+  <select
+    [ngModel]="selectedOption"
+    (ngModelChange)="onChange($event)"
+    class="form-control"
+  >
+    <option value="undefined" disabled selected hidden>Bulk actions</option>
+    <ng-content></ng-content>
+  </select>
+  <div class="input-group-append">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="applyBulkActions()"
+      [disabled]="!enabled"
+    >
+      <span>A</span>
+      <span class="d-none d-lg-inline">pply</span>
+    </button>
+  </div>
+</div>

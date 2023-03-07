@@ -1,0 +1,41 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=tcp:project-horizon-dev-db.database.windows.net,1433;Initial Catalog=project-horizon-dev-db;Persist Security Info=False;User ID=project-horizon-dev-db;Password=eCA9uzDx6bakm8wv;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+  "JwtAuthentication": {
+    "Issuer": "ProjectHorizonWebAPI",
+    "Audience": "ProjectHorizonClientApp",
+    "SecretKey": "Fdrbj4s%MwJM!ktSW6*_#Fa5dvw37CPt"
+  },
+  "AzureStorageInformation": {
+    "AzureStorageConnection": "DefaultEndpointsProtocol=https;AccountName=horizondevs;AccountKey=gjHN0bS+kiGeBkkeXnS8SMw60b3K2j0ZxOJrRq9equXrhMh32Yq4bFK1dSkX5DvGD2nO/Aw2sBYZYbUpv5/ohw==;EndpointSuffix=core.windows.net",
+    "PublicRepositoryName": "public-repository",
+    "PackageCacheName": "package-cache",
+    "ProfilePicturesName": "profile-pictures",
+    "LogosName": "logos"
+  },
+  "SendGrid": {
+    "ApiKey": "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",
+    "DefaultFromEmail": "dd@endpointadmin.com",
+    "DefaultFromName": "Endpoint Admin"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Hangfire": "Information"
+    }
+  },
+  "TestSettings": {
+    "MicrosoftIntuneInformation": {
+      "Tenant": "acd3b64b-89d5-4d78-a349-b6997b4530bf",
+      "ClientId": "9867deb3-915e-40d8-a856-da05bcf560a0",
+      "ClientSecret": "I-j8Q~vB6sYdcZmCA3YjhLVzKcfKX0MFZdp9na-I"
+    },
+    "TestSubscriptionId": "76135982-74e4-4680-80a6-a7e224acdcec"
+  },
+
+  "GraphConfigEncryption:Key": "8x/A?D(G+KbPeShVmYq3s6v9y$B&E)H@",
+  "AllowedHosts": "*"
+}

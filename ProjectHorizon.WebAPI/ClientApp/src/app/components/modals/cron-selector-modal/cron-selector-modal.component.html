@@ -1,0 +1,123 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="SelectGroupsLabel">Set Trigger</h3>
+  <button class="close" type="button" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="p-3 border rounded" id="cronSelectorOptions">
+    <div class="form-check">
+      <input
+        class="form-check-input text-dark-blue"
+        type="radio"
+        name="trigger"
+        id="update"
+        value="{{ Mode.Update }}"
+        (change)="onModeChange($event)"
+        [checked]="dto.mode == undefined || dto.mode == Mode.Update"
+      />
+      <label class="form-check-label text-dark-blue" for="update">
+        When a new version is uploaded
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input text-dark-blue"
+        type="radio"
+        name="trigger"
+        id="weekly"
+        value="{{ Mode.Weekly }}"
+        (change)="onModeChange($event)"
+        [checked]="dto.mode != undefined && dto.mode == Mode.Weekly"
+      />
+      <label class="form-check-label text-dark-blue" for="weekly">
+        Weekly
+      </label>
+    </div>
+    <div class="form-check mb-3">
+      <input
+        class="form-check-input text-dark-blue"
+        type="radio"
+        name="trigger"
+        id="monthly"
+        value="{{ Mode.Monthly }}"
+        (change)="onModeChange($event)"
+        [checked]="dto.mode != undefined && dto.mode == Mode.Monthly"
+      />
+      <label class="form-check-label text-dark-blue" for="monthly">
+        Monthly
+      </label>
+    </div>
+
+    <div *ngIf="dto.mode == Mode.Weekly" class="row align-items-center">
+      <label for="weekday-select" class="col-auto m-0">Day of week</label>
+      <select
+        id="weekday-select"
+        class="col-auto form-control m-0 text-dark-blue"
+        [(ngModel)]="dto.weekDay"
+        (ngModelChange)="update()"
+      >
+        <option *ngFor="let day of weekDays" value="{{ day }}">
+          {{ WeekDay[day] }}
+        </option>
+      </select>
+    </div>
+
+    <div
+      *ngIf="dto.mode == Mode.Monthly"
+      class="row align-items-center justify-content-start"
+    >
+      <label for="monthweek-select" class="col-auto m-0">On the</label>
+      <select
+        id="monthweek-select"
+        class="col-auto form-control mr-2 text-dark-blue"
+        [(ngModel)]="dto.monthWeek"
+        (ngModelChange)="update()"
+      >
+        <option *ngFor="let week of monthWeeks" value="{{ week }}">
+          {{ MonthWeek[week] }}
+        </option>
+      </select>
+      <select
+        id="weekday-select"
+        class="col-auto form-control text-dark-blue"
+        [(ngModel)]="dto.weekDay"
+        (ngModelChange)="update()"
+      >
+        <option *ngFor="let day of weekDays" value="{{ day }}">
+          {{ WeekDay[day] }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <br />
+  <div>
+    <div>
+      <label>Next start: </label>
+    </div>
+    <div>
+      <span *ngIf="dto.mode != 0" id="nextTextArea" class="text-dark-blue">
+        {{ (dto.nextStartTime | date: "dd/MM/yyyy HH:mm") + " UTC" || "None" }}
+      </span>
+      <span *ngIf="dto.mode == 0" id="nextTextArea" class="text-dark-blue">
+        The schedule will be triggered when a new version of the assigned
+        application is released.
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer flex-column flex-lg-row">
+  <div class="d-flex flex-row">
+    <button class="btn btn-outline-primary m-1" type="button" (click)="close()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary m-1" (click)="passBack()">
+      Select
+    </button>
+  </div>
+</div>

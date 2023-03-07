@@ -1,0 +1,88 @@
+<!-- Begin Page Content -->
+<div class="container-fluid mt-4 table-layout">
+  <!-- Page Heading -->
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-lg-4">
+      <p class="mb-0">Global/</p>
+      <h3 class="mb-2">SuperAdmin Users</h3>
+    </div>
+  </div>
+
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>
+                <div class="th-inner">Name</div>
+              </th>
+              <th>
+                <div class="th-inner">E-Mail</div>
+              </th>
+              <th>
+                <div class="th-inner">Two Factor Status</div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <td class="d-flex align-items-center">
+                <div class="profile-pic mr-3">
+                  <img
+                    src="{{
+                      user.profilePictureSmall ||
+                        '../../../assets/images/blank-profile.png'
+                    }}"
+                    class="user-img"
+                  />
+                </div>
+                <span class="name">{{
+                  user.firstName + " " + user.lastName
+                }}</span>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.twoFactorRequired ? "On" : "Off" }}</td>
+              <td>
+                <div class="nav-item dropdown no-arrow table-dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <img src="../../../assets/icons/more-icon.svg" />
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-right shadow"
+                    aria-labelledby="userDropdown"
+                  >
+                    <a
+                      class="dropdown-item"
+                      (click)="toggleTwoFactorAuthentication(user.id)"
+                      >{{
+                        user.twoFactorRequired ? "Disable 2FA" : "Enable 2FA"
+                      }}</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      (click)="removeSuperAdminRole(user.id)"
+                    >
+                      Remove
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

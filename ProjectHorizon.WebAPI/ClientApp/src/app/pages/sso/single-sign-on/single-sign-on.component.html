@@ -1,0 +1,91 @@
+<div class="container-fluid mt-4 table-layout">
+  <!-- Page Heading -->
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-lg-6">
+      <p class="mb-0">Settings/</p>
+      <h3 class="mb-2">Single Sign-On</h3>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!consentAttempted; else consentTemplate">
+    <div class="row pl-3 pr-3">
+      <div class="card grey-bg p-4 mb-4">
+        <div class="card-header d-flex align-items-center">
+          <img src="assets/images/apps/azure.svg" class="mr-2" />
+          <h4>Azure AD Single Sign-On</h4>
+        </div>
+        <div class="card-body">
+          <p>Grant tenant-wide admin consent to Endpoint Admin.</p>
+          <button
+            type="button"
+            class="btn btn-primary btn-user btn-block w-icon mr-4"
+            (click)="adminConsent()"
+          >
+            <img
+              class="azure-label"
+              src="assets/icons/ms-symbollockup_mssymbol.svg"
+            />
+            <span class="azure-text">Grant consent</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #consentTemplate>
+    <div class="row pl-3 pr-3">
+      <div class="card grey-bg p-4 mb-4">
+        <div class="d-flex align-items-center">
+          <img
+            width="60"
+            height="60"
+            class="azure-label mr-2"
+            src="assets/images/apps/azure.svg"
+          />
+          <h3 class="azure-text">{{ adminConsentMessage }}</h3>
+        </div>
+        <div>
+          <strong>{{ adminConsentDetails }}</strong>
+        </div>
+      </div>
+    </div></ng-template
+  >
+  <ng-container *ngIf="consents.length > 0">
+    <div
+      class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+    >
+      <div class="col-lg-6">
+        <h3 class="mb-2">Consent Granted</h3>
+      </div>
+    </div>
+    <div class="bootstrap-table bootstrap4">
+      <div class="fixed-table-container" style="padding-bottom: 0px">
+        <div class="table-responsive">
+          <table class="table-borderless table table-bordered table-hover w-10">
+            <thead>
+              <tr>
+                <th>
+                  <div class="th-inner">Tenant Id</div>
+                </th>
+                <th>
+                  <div class="th-inner">Granted</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let consent of consents">
+                <td>
+                  <span>{{ consent.tenantId }}</span>
+                </td>
+                <td>
+                  {{ consent.createdOn + "Z" | date: "dd/MM/yyyy HH:mm" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

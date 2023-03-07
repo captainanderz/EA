@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="ChangeSubscriptionLabel">Change Subscription</h3>
+  <button class="close" type="button" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-info">
+    <input
+      id="subscription-search-box"
+      #subscriptionSearchBox
+      type="search"
+      placeholder="Subscription Name"
+      (input)="onInput(subscriptionSearchBox.value)"
+      (keydown)="onKeyDown($event)"
+      [(ngModel)]="currentSubscriptionSelectedName"
+      required
+      ngbAutofocus
+    />
+    <ul class="search-result">
+      <li
+        *ngFor="let subscription of subscriptionsFiltered; index as i"
+        [class.autocomplete-active]="i === currentSubscriptionSelectedIndex"
+        (click)="selectSubscription(i)"
+      >
+        <strong>{{
+          subscription.name.substring(0, subscriptionSearchBox.value.length)
+        }}</strong
+        >{{ subscription.name.substring(subscriptionSearchBox.value.length) }}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-primary" type="button" (click)="close()">
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="changeCurrentSubscription()"
+    [disabled]="!currentSubscriptionSelectedId"
+  >
+    Change
+  </button>
+</div>

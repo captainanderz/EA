@@ -1,0 +1,336 @@
+<div class="container-fluid mt-4 table-layout">
+  <!-- Page Heading -->
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-auto">
+      <div class="col">
+        <p class="mb-0">Settings/</p>
+        <h3 class="mb-2">Notifications</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row justify-content-end">
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="col col-lg-auto d-flex justify-content-end">
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyNotificationSettingBulkOption()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option
+                *ngFor="
+                  let notificationSettingBulkOption of notificationSettingBulkOptions
+                "
+                [value]="notificationSettingBulkOption"
+              >
+                {{
+                  displayNotificationSettingBulkOption(
+                    notificationSettingBulkOption
+                  )
+                }}
+              </option>
+            </app-bulk-actions>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <div class="th-inner">
+                  <label
+                    ><container-element [ngSwitch]="getSelectionState()">
+                      <input
+                        *ngSwitchCase="SelectionState.None"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.Partial"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="true"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.All"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="true"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      /> </container-element
+                  ></label>
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">Name</div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{ displayNotificationType(notificationType.NewApplication) }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{
+                    displayNotificationType(notificationType.DeletedApplication)
+                  }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{ displayNotificationType(notificationType.NewVersion) }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{ displayNotificationType(notificationType.ManualApproval) }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{ "string" }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{
+                    displayNotificationType(notificationType.FailedDeployment)
+                  }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{ displayNotificationType(notificationType.Shop) }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{
+                    displayNotificationType(notificationType.AssignmentProfiles)
+                  }}
+                </div>
+              </th>
+              <th class="text-center">
+                <div class="th-inner">
+                  {{
+                    displayNotificationType(
+                      notificationType.DeploymentSchedules
+                    )
+                  }}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let userNotificationSetting of pagedItems; index as i">
+              <td
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <label>
+                  <input
+                    #selectUser
+                    name="btSelectItem"
+                    type="checkbox"
+                    [checked]="isItemSelected(userNotificationSetting.userId)"
+                    (change)="toggleSelectItem(userNotificationSetting.userId)"
+                  />
+                  <span></span>
+                </label>
+              </td>
+              <td class="d-flex align-items-center">
+                <div class="profile-pic mr-3">
+                  <img
+                    src="{{
+                      userNotificationSetting.profilePictureSmall ||
+                        '../../../assets/images/blank-profile.png'
+                    }}"
+                    class="user-img"
+                  />
+                </div>
+                <span class="name">{{ userNotificationSetting.fullName }}</span>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-new-application"
+                    [checked]="userNotificationSetting.isNewApplication"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.NewApplication
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-new-assignment"
+                    [checked]="userNotificationSetting.isDeletedApplication"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.DeletedApplication
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-new-version"
+                    [checked]="userNotificationSetting.isNewVersion"
+                    (change)="
+                      toggleNotificationSetting(i, notificationType.NewVersion)
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-manual-approve"
+                    [checked]="userNotificationSetting.isManualApproval"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.ManualApproval
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-successful-deployment"
+                    [checked]="userNotificationSetting.isSuccessfulDeployment"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.SuccessfulDeployment
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-failed-deployment"
+                    [checked]="userNotificationSetting.isFailedDeployment"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.FailedDeployment
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-shop"
+                    [checked]="userNotificationSetting.isShop"
+                    (change)="
+                      toggleNotificationSetting(i, notificationType.Shop)
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-assignment-profiles"
+                    [checked]="userNotificationSetting.isAssignmentProfiles"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.AssignmentProfiles
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="custom-toggle mb-0">
+                  <input
+                    type="checkbox"
+                    name="notification-deployment-schedules"
+                    [checked]="userNotificationSetting.isDeploymentSchedules"
+                    (change)="
+                      toggleNotificationSetting(
+                        i,
+                        notificationType.DeploymentSchedules
+                      )
+                    "
+                  />
+                  <div class="toggle">
+                    <div class="dot"></div>
+                  </div>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

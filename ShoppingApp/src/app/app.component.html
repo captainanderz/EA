@@ -1,0 +1,19 @@
+<ng-container *ngTemplateOutlet="templateRefExp"> </ng-container>
+<ng-template #loggedIn>
+  <div class="min-vh-100">
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>
+<ng-template #notLoggedIn>
+  <router-outlet></router-outlet>
+</ng-template>
+
+<div
+  *ngIf="overlayVisible"
+  class="app-overlay bg-light position-fixed top-0 start-0 w-100 h-100"
+>
+  <div class="spinner-border text-primary app-spinner" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

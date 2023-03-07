@@ -1,0 +1,414 @@
+// Sidebar
+.sidebar {
+  min-width: 280px;
+  height: 100vh;
+  background-color: $dark-blue;
+  position: fixed;
+  z-index: 40;
+  overflow-y: auto;
+
+  @extend .transition-ease;
+
+  .nav-item {
+    position: relative;
+    padding: 0 20px;
+    min-height: 60px;
+
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+
+    .nav-link {
+      text-align: center;
+      padding: 15px 20px;
+      border-radius: 4px;
+      max-height: 56px;
+      @extend .d-flex;
+      @extend .align-items-center;
+
+      span {
+        font-size: 15px;
+        display: block;
+        color: $purple;
+        @extend .sofia-regular;
+
+        &.badge {
+          position: absolute;
+          right: 20px;
+          color: $white;
+          font-size: 11px;
+          width: 25px;
+          padding: 5px 0;
+          border-radius: 2px;
+          @extend .sofia-black;
+        }
+      }
+
+      &.with-collapse {
+        background-color: $darker-blue;
+        transition: none;
+
+        &.collapsed {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .nav-icon {
+      width: 20px;
+      max-width: 20px;
+      min-width: 20px;
+      height: auto;
+      margin-right: 15px;
+      padding-bottom: 3px;
+
+      svg {
+        .fill-color {
+          fill: $purple;
+        }
+      }
+    }
+
+    &:hover {
+      .nav-link {
+        span {
+          color: $white;
+        }
+
+        .nav-icon {
+          .fill-color {
+            fill: $white;
+          }
+        }
+      }
+    }
+
+    &.active {
+      .nav-link {
+        background-color: $darker-blue;
+
+        span {
+          color: $white;
+        }
+
+        &.with-collapse {
+          &.collapsed {
+            background-color: $darker-blue;
+          }
+        }
+      }
+
+      .nav-icon {
+        svg {
+          .fill-color {
+            fill: $blue;
+          }
+        }
+      }
+
+      .collapse-inner {
+        background-color: $darker-blue;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+
+        .collapse-item {
+          .nav-icon {
+            svg {
+              .fill-color {
+                fill: $purple;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Accordion
+    .collapse {
+      position: absolute;
+      left: calc(#{$sidebar-collapsed-width} + #{$grid-gutter-width} / 2);
+      z-index: 10;
+      top: 2px;
+      background-color: $darker-blue;
+      // Grow In Animation
+      @extend .animated--grow-in;
+
+      .collapse-inner {
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+      }
+
+      &.show {
+      }
+    }
+
+    .collapsing {
+      display: none;
+      transition: none;
+    }
+
+    .collapse,
+    .collapsing {
+      .collapse-inner {
+        padding: 0 0 20px;
+        font-size: $dropdown-font-size;
+        margin: 0 0 1rem 0;
+        background-color: $darker-blue;
+
+        .sidebar-divider {
+          background-color: rgba(255, 255, 255, 0.12);
+          height: 1px;
+          width: calc(100% - 40px);
+          margin: 0 auto 10px;
+        }
+
+        .collapse-item {
+          padding: 5px 20px;
+          margin: 0;
+          display: block;
+          color: $purple;
+          text-decoration: none;
+          white-space: nowrap;
+          @extend .sofia-regular;
+          @extend .d-flex;
+          @extend .align-items-center;
+
+          &:hover {
+            color: $white;
+
+            .nav-icon {
+              .fill-color {
+                fill: $white;
+              }
+            }
+          }
+
+          &.active {
+            color: $white;
+
+            .nav-icon {
+              .fill-color {
+                fill: $blue;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #sidebarToggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &::after {
+      font-weight: 900;
+      content: "\f104";
+      font-family: "Font Awesome 5 Free";
+      margin-right: 0.1rem;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &.toggled {
+    -ms-overflow-style: hidden !important;  /* IE and Edge */
+    scrollbar-width: none !important;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  
+    width: 0 !important;
+  }
+
+  .sidebar-brand {
+    height: $topbar-base-height;
+    text-decoration: none;
+    font-size: 20px;
+    color: $white;
+    z-index: 10;
+    border-bottom: 1px solid $border-color-light;
+    margin-bottom: 20px;
+    @extend .transition-ease;
+    @extend .sofia-bold;
+
+    span {
+      @extend .sofia-light;
+    }
+
+    .sidebar-brand-text {
+      @extend .transition-ease;
+      display: none;
+    }
+  }
+
+  hr.sidebar-divider {
+    margin: 0 1rem 1rem;
+  }
+}
+
+// This should be merged in the above css
+body {
+  .sidebar {
+    width: $sidebar-base-width !important;
+
+    .nav-item {
+      // Accordion
+      .collapse {
+        position: relative;
+        left: 0;
+        z-index: 10;
+        top: 0;
+        animation: none;
+
+        .collapse-inner {
+          border-radius: 0;
+          box-shadow: none;
+        }
+      }
+
+      .collapsing {
+        display: block;
+        transition: $transition-collapse;
+      }
+
+      .collapse,
+      .collapsing {
+        margin: 0;
+      }
+
+      .nav-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+
+        span {
+          font-size: 0.85rem;
+          display: inline;
+        }
+      }
+    }
+
+    .sidebar-brand {
+      .sidebar-brand-text {
+        display: inline;
+      }
+    }
+
+    .sidebar-heading {
+      text-align: left;
+    }
+
+    &.toggled {
+      width: $sidebar-collapsed-width !important;
+      min-width: auto;
+
+      .nav-item {
+        padding: 0 10px;
+
+        .collapse {
+          position: relative;
+          left: 0;
+          // // Grow In Animation for Toggled State
+          // animation-name: growIn;
+          // animation-duration: 200ms;
+          // animation-timing-function: transform cubic-bezier(.18,1.25,.4,1), opacity cubic-bezier(0,1,.4,1);
+          span {
+            display: none;
+          }
+        }
+
+        .collapsing {
+          display: none;
+          transition: none;
+        }
+
+        .collapse,
+        .collapsing {
+          margin: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 1rem;
+        }
+
+        .nav-link {
+          text-align: center;
+          padding: 15px 20px;
+          width: auto;
+          display: block !important;
+
+          span {
+            display: none;
+
+            &.badge {
+              display: block;
+              width: 6px;
+              min-width: 6px;
+              height: 6px;
+              color: transparent;
+              padding: 0;
+              top: 25px;
+              right: 9px;
+            }
+          }
+
+          .nav-icon {
+            margin: -1px auto 3px;
+          }
+        }
+      }
+
+      .sidebar-brand {
+        .sidebar-brand-text {
+          display: none;
+        }
+      }
+
+      .sidebar-heading {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// // Onboarding
+// .box {
+//   border-radius: $border-radius;
+
+//   &.onboarding {
+//     position: fixed;
+//     bottom: 20px;
+//     left: 20px;
+//     max-width: 240px;
+//     background-color: #0e246d;
+
+//     p {
+//       color: $white;
+//       font-size: 13px;
+//       @extend .sofia-light;
+
+//       &.label {
+//         font-size: 15px;
+//         margin-bottom: 5px;
+//         @extend .sofia-semibold;
+//       }
+//     }
+
+//     .btn {
+//       width: 100%;
+//       font-size: 13px;
+//       padding: 8px 0 11px;
+//       margin-top: 20px;
+//     }
+//   }
+// }

@@ -1,0 +1,116 @@
+<div *ngIf="showRegister">
+  <div class="mb-4 d-flex justify-content-center">
+    <img src="assets/icons/logo-full.svg" />
+  </div>
+  <div class="card double o-hidden border-0">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-12 col-lg-6 order-lg-2">
+          <div class="p-4 p-md-5">
+            <div class="text-left">
+              <h1 class="h3 mb-4">Sign up with Azure</h1>
+            </div>
+            <form
+              (ngSubmit)="azureRegisterForm.form.valid && submit()"
+              #azureRegisterForm="ngForm"
+              class="user"
+            >
+              <div class="form-group">
+                <label>First name</label>
+                <input
+                  name="firstName"
+                  [(ngModel)]="azureRegistrationDto.firstName"
+                  #firstName="ngModel"
+                  required
+                  maxlength="50"
+                  class="form-control form-control-user"
+                />
+                <div
+                  *ngIf="
+                    azureRegisterForm.submitted &&
+                    (firstName.invalid || !isPersonNameValid(firstName.value))
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="firstName.errors?.required">
+                    First name is required
+                  </div>
+                  <div *ngIf="!isPersonNameValid(firstName.value)">
+                    First name contains invalid characters
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Last name</label>
+                <input
+                  name="lastName"
+                  [(ngModel)]="azureRegistrationDto.lastName"
+                  #lastName="ngModel"
+                  required
+                  maxlength="50"
+                  class="form-control form-control-user"
+                />
+                <div
+                  *ngIf="
+                    azureRegisterForm.submitted &&
+                    (lastName.invalid || !isPersonNameValid(lastName.value))
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="lastName.errors?.required">
+                    Last name is required
+                  </div>
+                  <div *ngIf="!isPersonNameValid(lastName.value)">
+                    Last name contains invalid characters
+                  </div>
+                </div>
+              </div>
+              <div
+                class="form-group d-flex align-items-center justify-content-between"
+              >
+                <div class="custom-control custom-checkbox small">
+                  <input
+                    type="checkbox"
+                    id="customCheck"
+                    name="customCheck"
+                    [(ngModel)]="azureRegistrationDto.acceptedTerms"
+                    #acceptedTerms="ngModel"
+                    required
+                    class="custom-control-input"
+                  />
+                  <label class="custom-control-label" for="customCheck">
+                    I accept the&nbsp;
+                  </label>
+                  <label class="">
+                    <a role="button" (click)="openTermsAndConditionsModal()">
+                      Terms & Conditions
+                    </a>
+                  </label>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  azureRegisterForm.submitted &&
+                  acceptedTerms.invalid &&
+                  acceptedTerms.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                You must accept the Terms & Conditions.
+              </div>
+              <button class="btn btn-primary btn-user btn-block">
+                Continue
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 order-lg-1 grey-bg cta">
+          <div class="p-4 p-md-5">
+            <app-trial-info></app-trial-info>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

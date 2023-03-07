@@ -1,0 +1,28 @@
+@import './../../styles/variables';
+
+.circle-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+
+  .circle-image {
+    position: absolute;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    max-width: none;
+  }
+}
+
+
+.box {
+  height: 38px;
+  width: 38px;
+}
+
+.logo {
+  background-color: $gray-300;
+}

@@ -1,0 +1,701 @@
+<!-- Sidebar - Brand -->
+<a
+  class="sidebar-brand d-flex align-items-center justify-content-start pl-4"
+  routerLink="{{ appRoutes.root }}"
+  [queryParams]="{}"
+>
+  <div class="sidebar-brand-icon">
+    <!-- <img src="../../../assets/icons/logo.svg"> -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="34"
+      height="30"
+      viewBox="0 0 68 60"
+    >
+      <defs>
+        <style>
+          .logo-cls-1 {
+            fill: #00baff;
+          }
+
+          .logo-cls-2 {
+            opacity: 0.64;
+            mix-blend-mode: overlay;
+          }
+
+          .logo-cls-3 {
+            fill: #00114a;
+            fill-rule: evenodd;
+          }
+        </style>
+      </defs>
+      <circle class="logo-cls-1" cx="38" cy="30" r="30" />
+      <circle class="logo-cls-2" cx="38" cy="30" r="23" />
+      <path
+        class="logo-cls-3"
+        d="M45.995,76.9c3.378-2.675,6.941-3.311,11.741,2.854a16.036,16.036,0,0,0,1.349,1.556,15.6,15.6,0,0,0,22.3,0,16.168,16.168,0,0,0,0-22.627,15.6,15.6,0,0,0-22.3,0,16.09,16.09,0,0,0-1.349,1.556c-4.8,6.165-8.363,5.529-11.741,2.854a8.565,8.565,0,0,0-11.478.69,8.879,8.879,0,0,0,0,12.425A8.565,8.565,0,0,0,45.995,76.9Z"
+        transform="translate(-32 -40)"
+      />
+      <circle class="logo-cls-1" cx="38" cy="30" r="6" />
+    </svg>
+  </div>
+  <div class="sidebar-brand-text mx-3">endpoint <span>admin</span></div>
+</a>
+
+<!-- Nav Item - Dashboard
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <div class="nav-icon">
+            <?php include 'img/icons/dashboard.svg'; ?>
+          </div>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      -->
+
+<!-- Nav Item - Pages Collapse Menu -->
+<li
+  class="nav-item"
+  [class.active]="
+    isCurrentRouteOneOf([appRoutes.root, appRoutes.privateRepository])
+  "
+>
+  <!-- Applications-->
+  <a
+    class="nav-link with-collapse collapsed"
+    href="#"
+    data-toggle="collapse"
+    data-target="#collapseTwo"
+    aria-expanded="true"
+    aria-controls="collapseTwo"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/apps.svg"> -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 40 40"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="M96,355H82a2,2,0,0,0-2,2v14a2,2,0,0,0,2,2H96a2,2,0,0,0,2-2V357A2,2,0,0,0,96,355Zm-2,14H84V359H94v10Zm24-36H104a2,2,0,0,0-2,2v14a2,2,0,0,0,2,2h14a2,2,0,0,0,2-2V335A2,2,0,0,0,118,333Zm-2,14H106V337h10v10Zm2,8H104a2,2,0,0,0-2,2v14a2,2,0,0,0,2,2h14a2,2,0,0,0,2-2V357A2,2,0,0,0,118,355Zm-2,14H106V359h10v10ZM96,333H82a2,2,0,0,0-2,2v14a2,2,0,0,0,2,2H96a2,2,0,0,0,2-2V335A2,2,0,0,0,96,333Zm-2,14H84V337H94v10Z"
+          transform="translate(-80 -333)"
+        />
+      </svg>
+    </div>
+    <span>Applications</span>
+  </a>
+  <div
+    id="collapseTwo"
+    class="collapse"
+    aria-labelledby="headingTwo"
+    data-parent="#accordionSidebar"
+  >
+    <div class="collapse-inner">
+      <div class="sidebar-divider"></div>
+      <!-- Public Repository -->
+      <a
+        class="collapse-item"
+        [class.active]="isCurrentRouteOneOf([appRoutes.root])"
+        routerLink="{{ appRoutes.root }}"
+        [queryParams]="{}"
+      >
+        <div class="nav-icon">
+          <!-- <img src="../../../assets/icons/public.svg"> -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 40 40"
+          >
+            <path
+              class="fill-color"
+              fill-rule="evenodd"
+              d="M118.792,468.266v-0.1a20.023,20.023,0,0,0-37.614,0v0.1a19.784,19.784,0,0,0,0,13.471v0.1a20.023,20.023,0,0,0,37.614,0v-0.1A19.794,19.794,0,0,0,118.792,468.266ZM84.443,479.011a15.688,15.688,0,0,1,0-8.019h3.725a33.56,33.56,0,0,0,0,8.019H84.443Zm1.642,4.009h2.8a24.394,24.394,0,0,0,2,5.152A16.039,16.039,0,0,1,86.085,483.02Zm2.8-16.037h-2.8a16.024,16.024,0,0,1,4.747-5.152A24.363,24.363,0,0,0,88.889,466.983Zm9.053,23.454a12.711,12.711,0,0,1-4.867-7.417h4.867v7.417Zm0-11.426H92.214a28.812,28.812,0,0,1,0-8.019h5.728v8.019Zm0-12.028H93.075a12.708,12.708,0,0,1,4.867-7.417v7.417Zm15.862,0H111a24.408,24.408,0,0,0-2-5.152A16.02,16.02,0,0,1,113.8,466.983Zm-11.856-7.417a12.717,12.717,0,0,1,4.867,7.417h-4.867v-7.417Zm0,30.871V483.02h4.867A12.72,12.72,0,0,1,101.948,490.437Zm5.728-11.426h-5.728v-8.019h5.728A28.873,28.873,0,0,1,107.676,479.011Zm1.382,9.161a24.486,24.486,0,0,0,2-5.152h2.8A16.03,16.03,0,0,1,109.058,488.172Zm6.389-9.161h-3.726a33.473,33.473,0,0,0,0-8.019h3.726A15.7,15.7,0,0,1,115.447,479.011Z"
+              transform="translate(-80 -455)"
+            />
+          </svg>
+        </div>
+        <span>Public Repository</span>
+      </a>
+      <!-- Private Repository-->
+      <a
+        class="collapse-item"
+        [class.active]="isCurrentRouteOneOf([appRoutes.privateRepository])"
+        routerLink="/{{ appRoutes.privateRepository }}"
+        [queryParams]="{}"
+      >
+        <div class="nav-icon">
+          <!-- <img src="../../../assets/icons/private.svg"> -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="21"
+            viewBox="0 0 44 42"
+          >
+            <path
+              class="fill-color"
+              fill-rule="evenodd"
+              d="M84,538.008h9.12a2,2,0,0,1,1.9,1.36l1.08,3.28a2,2,0,0,0,1.9,1.359h14a2,2,0,0,1,2,2,2,2,0,0,0,4,0,6,6,0,0,0-6-6H99.44l-0.64-2a6,6,0,0,0-5.68-4H84a6,6,0,0,0-6,6V566a6,6,0,0,0,6,6H96a2,2,0,1,0,0-4H84a2,2,0,0,1-2-2V540.008A2,2,0,0,1,84,538.008Zm34,22.356V558a6,6,0,0,0-12,0v2.36A6,6,0,0,0,102,566v4a6,6,0,0,0,6,6h8a6,6,0,0,0,6-6v-4A6,6,0,0,0,118,560.364ZM110,558a2,2,0,0,1,4,0v2h-4v-2Zm8,12a2,2,0,0,1-2,2h-8a2,2,0,0,1-2-2v-4a2,2,0,0,1,2-2h8a2,2,0,0,1,2,2v4Z"
+              transform="translate(-78 -534)"
+            />
+          </svg>
+        </div>
+        <span>Private Repository</span>
+      </a>
+      <!-- Assignment Profiles -->
+      <a
+        class="collapse-item"
+        [class.active]="isCurrentRouteOneOf([appRoutes.assignmentProfiles])"
+        routerLink="/{{ appRoutes.assignmentProfiles }}"
+        [queryParams]="{}"
+      >
+        <div class="nav-icon">
+          <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+          <svg
+            width="22"
+            version="1.1"
+            id="Capa_1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve"
+          >
+            <g>
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M352.459,220c0-11.046-8.954-20-20-20h-206c-11.046,0-20,8.954-20,20s8.954,20,20,20h206
+				            C343.505,240,352.459,231.046,352.459,220z"
+              />
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M126.459,280c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20H251.57c11.046,0,20-8.954,20-20c0-11.046-8.954-20-20-20
+			            	H126.459z"
+              />
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M173.459,472H106.57c-22.056,0-40-17.944-40-40V80c0-22.056,17.944-40,40-40h245.889c22.056,0,40,17.944,40,40v123
+			            	c0,11.046,8.954,20,20,20c11.046,0,20-8.954,20-20V80c0-44.112-35.888-80-80-80H106.57c-44.112,0-80,35.888-80,80v352
+				            c0,44.112,35.888,80,80,80h66.889c11.046,0,20-8.954,20-20C193.459,480.954,184.505,472,173.459,472z"
+              />
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M467.884,289.572c-23.394-23.394-61.458-23.395-84.837-0.016l-109.803,109.56c-2.332,2.327-4.052,5.193-5.01,8.345
+				            l-23.913,78.725c-2.12,6.98-0.273,14.559,4.821,19.78c3.816,3.911,9,6.034,14.317,6.034c1.779,0,3.575-0.238,5.338-0.727
+				            l80.725-22.361c3.322-0.92,6.35-2.683,8.79-5.119l109.573-109.367C491.279,351.032,491.279,312.968,467.884,289.572z
+				            M333.776,451.768l-40.612,11.25l11.885-39.129l74.089-73.925l28.29,28.29L333.776,451.768z M439.615,346.13l-3.875,3.867
+				            l-28.285-28.285l3.862-3.854c7.798-7.798,20.486-7.798,28.284,0C447.399,325.656,447.399,338.344,439.615,346.13z"
+              />
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M332.459,120h-206c-11.046,0-20,8.954-20,20s8.954,20,20,20h206c11.046,0,20-8.954,20-20S343.505,120,332.459,120z"
+              />
+            </g>
+          </svg>
+        </div>
+        <span>Assignment Profiles</span>
+      </a>
+      <!-- Deployment Schedules -->
+      <a
+        class="collapse-item"
+        [class.active]="isCurrentRouteOneOf([appRoutes.deploymentSchedules])"
+        routerLink="/{{ appRoutes.deploymentSchedules }}"
+        [queryParams]="{}"
+      >
+        <div class="nav-icon">
+          <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+          <svg
+            viewBox="0 0 512 512"
+            width="22"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="fill-color"
+              d="m341 261c11.046875 0 20 8.953125 20 20v60.449219c0 5.902343-2.609375 11.503906-7.128906 15.308593l-32.042969 26.949219c-3.75 3.152344-8.320313 4.691407-12.863281 4.691407-5.699219 0-11.359375-2.421876-15.316406-7.125-7.109376-8.457032-6.019532-21.070313 2.433593-28.179688l24.917969-20.957031v-51.136719c0-11.046875 8.953125-20 20-20zm151-79c-11.046875 0-20 8.953125-20 20v30.773438c-32.054688-38.78125-79.988281-61.875-131.449219-61.875-94.042969 0-170.550781 76.507812-170.550781 170.550781s76.710938 170.550781 171 170.550781c25.765625 0 51.234375-5.804688 74.296875-16.855469.390625-.175781.78125-.347656 1.164063-.542969.105468-.058593.210937-.132812.316406-.191406 2.691406-1.324218 5.363281-2.699218 7.984375-4.167968 9.640625-5.390626 13.085937-17.578126 7.691406-27.21875-5.390625-9.640626-17.574219-13.085938-27.214844-7.695313-19.503906 10.90625-41.714843 16.671875-64.238281 16.671875-72.234375 0-131-58.566406-131-130.550781s58.5625-130.550781 130.550781-130.550781c41.015625 0 79.105469 19.167968 103.597657 51.101562h-31.148438c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h39c33.085938 0 60-26.914062 60-60v-40c0-11.046875-8.953125-20-20-20zm-14.289062 226.921875c-9.152344-6.183594-21.582032-3.773437-27.761719 5.386719-6.179688 9.160156-3.761719 21.589844 5.390625 27.769531 3.429687 2.3125 7.320312 3.421875 11.171875 3.421875 6.429687 0 12.726562-3.089844 16.597656-8.820312 6.167969-9.148438 3.761719-21.578126-5.398437-27.757813zm33.597656-61.832031c-.128906-.640625-.289063-1.269532-.476563-1.898438-.191406-.621094-.410156-1.242187-.660156-1.839844-.25-.601562-.53125-1.203124-.839844-1.773437-.3125-.578125-.640625-1.136719-1-1.679687-.359375-.546876-.761719-1.078126-1.171875-1.578126-.410156-.511718-.859375-1-1.320312-1.460937-.457032-.460937-.949219-.910156-1.457032-1.320313-.5-.417968-1.042968-.808593-1.582031-1.167968-.539062-.359375-1.109375-.699219-1.679687-1-.582032-.3125-1.171875-.589844-1.769532-.839844-.601562-.25-1.222656-.472656-1.839843-.660156-.632813-.191406-1.273438-.351563-1.902344-.480469-.640625-.128906-1.300781-.230469-1.949219-.289063-1.300781-.132812-2.621094-.132812-3.929687 0-.648438.058594-1.300781.160157-1.941407.289063-.640624.128906-1.277343.289063-1.898437.480469-.621094.1875-1.238281.410156-1.839844.660156-.601562.25-1.199219.527344-1.769531.839844-.582031.300781-1.140625.640625-1.679688 1-.550781.359375-1.082031.75-1.582031 1.167968-.507812.410157-1 .859376-1.460937 1.320313-.46875.460937-.910156.949219-1.328125 1.460937-.410157.5-.800781 1.03125-1.160157 1.578126-.359374.542968-.699218 1.101562-1 1.679687-.308593.570313-.589843 1.171875-.839843 1.773437-.25.597657-.46875 1.21875-.660157 1.839844-.1875.628906-.351562 1.257813-.480468 1.898438s-.230469 1.300781-.289063 1.941406c-.070312.660156-.101562 1.320312-.101562 1.96875s.03125 1.308594.101562 1.96875c.058594.640625.160157 1.300781.289063 1.941406.132812.628906.292968 1.269532.480468 1.898438.191407.621094.410157 1.242187.660157 1.839844.25.601562.53125 1.203124.839843 1.773437.300782.566406.640626 1.136719 1 1.679687.359376.546876.75 1.078126 1.160157 1.578126.417969.511718.859375 1 1.328125 1.460937.460937.460937.953125.910156 1.460937 1.320313.5.410156 1.03125.808593 1.582031 1.167968.539063.359375 1.097657.699219 1.679688 1 .570312.3125 1.167969.589844 1.769531.839844.601563.25 1.21875.472656 1.839844.660156.621094.191406 1.261719.351563 1.898437.480469.640626.128906 1.292969.230469 1.941407.289063.648437.070312 1.320312.101562 1.96875.101562.652343 0 1.3125-.03125 1.960937-.101562.648438-.058594 1.3125-.160157 1.949219-.289063.632813-.128906 1.273437-.289063 1.902344-.480469.617187-.1875 1.238281-.410156 1.839843-.660156.597657-.25 1.1875-.527344 1.769532-.839844.570312-.300781 1.140625-.640625 1.679687-1 .539063-.359375 1.082031-.757812 1.582031-1.167968.507813-.410157 1-.859376 1.457032-1.320313.460937-.460937.910156-.949219 1.320312-1.460937.410156-.5.8125-1.03125 1.171875-1.578126.359375-.542968.6875-1.113281 1-1.679687.308594-.570313.589844-1.171875.839844-1.773437.25-.597657.46875-1.21875.660156-1.839844.1875-.628906.347657-1.269532.476563-1.898438.132812-.640625.230468-1.300781.292968-1.941406.070313-.660156.097657-1.320312.097657-1.96875s-.027344-1.308594-.097657-1.96875c-.0625-.640625-.164062-1.300781-.292968-1.941406zm-347.308594 124.910156h-84c-22.054688 0-40-17.945312-40-40v-312c0-22.054688 17.945312-40 40-40h25v20c0 11.046875 8.953125 20 20 20s20-8.953125 20-20v-20h90v20c0 11.046875 8.953125 20 20 20s20-8.953125 20-20v-20h91v20c0 11.046875 8.953125 20 20 20s20-8.953125 20-20v-20h26c22.054688 0 40 17.945312 40 40 0 11.046875 8.953125 20 20 20s20-8.953125 20-20c0-44.113281-35.886719-80-80-80h-26v-20c0-11.046875-8.953125-20-20-20s-20 8.953125-20 20v20h-91v-20c0-11.046875-8.953125-20-20-20s-20 8.953125-20 20v20h-90v-20c0-11.046875-8.953125-20-20-20s-20 8.953125-20 20v20h-25c-44.113281 0-80 35.886719-80 80v312c0 44.113281 35.886719 80 80 80h84c11.046875 0 20-8.953125 20-20s-8.953125-20-20-20zm0 0"
+            />
+          </svg>
+        </div>
+        <span>Deployment Schedules</span>
+      </a>
+    </div>
+  </div>
+</li>
+
+<!-- Nav Item - Shop Requests -->
+<li
+  class="nav-item"
+  [class.active]="isCurrentRouteOneOf([appRoutes.shopRequests])"
+>
+  <a
+    class="nav-link d-flex align-items-center"
+    routerLink="/{{ appRoutes.shopRequests }}"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/approvals.svg"> -->
+      <svg
+        id="Layer_1"
+        enable-background="new 0 0 512.364 512.364"
+        width="22"
+        viewBox="0 0 512.364 512.364"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="m370.949 511.89h-229.534c-61.058 0-112.315-45.748-119.229-106.413l-21.521-188.85c-6.469-49.885 35.155-96.518 85.447-95.736 26.52 1.049 26.53 38.946-.001 39.999-13.284 0-25.472 5.458-34.318 15.37-8.846 9.911-12.889 22.638-11.385 35.837l21.522 188.852c4.609 40.443 38.78 70.942 79.485 70.942h229.534c40.705 0 74.877-30.498 79.485-70.941l21.521-188.852c1.504-13.199-2.539-25.926-11.385-35.837-8.846-9.912-21.033-15.37-34.318-15.37-26.516-1.046-26.534-38.946 0-40 50.288-.785 91.921 45.862 85.445 95.736l-21.521 188.851c-6.912 60.665-58.169 106.412-119.227 106.412zm-186.845-325v-74c4.021-96.868 142.015-96.793 146 0v8h-86c-26.536 1.056-26.516 38.953 0 40h106c11.046 0 20-8.954 20-20v-28c-6.225-149.947-219.831-149.831-226 0v74c0 11.046 8.954 20 20 20s20-8.954 20-20zm11 104c0 13.807-11.193 25-25 25-33.162-1.317-33.153-48.688 0-50 13.807 0 25 11.193 25 25zm61-25c-13.807 0-25 11.193-25 25 1.317 33.162 48.688 33.153 50 0 0-13.807-11.193-25-25-25zm86 0c-13.807 0-25 11.193-25 25 1.317 33.162 48.688 33.153 50 0 0-13.807-11.193-25-25-25zm-172 86c-13.807 0-25 11.193-25 25 1.317 33.162 48.688 33.153 50 0 0-13.807-11.193-25-25-25zm86 0c-13.807 0-25 11.193-25 25 1.317 33.162 48.688 33.153 50 0 0-13.807-11.193-25-25-25zm86 0c-13.807 0-25 11.193-25 25 1.317 33.162 48.688 33.153 50 0 0-13.807-11.193-25-25-25z"
+        />
+      </svg>
+    </div>
+    <span>Shop Requests</span>
+    <span *ngIf="shopRequestCount > 0" class="badge badge-danger">{{
+      shopRequestCount
+    }}</span>
+  </a>
+</li>
+
+<!-- Nav Item - Approvals -->
+<li
+  class="nav-item"
+  [class.active]="isCurrentRouteOneOf([appRoutes.approvals])"
+>
+  <a
+    class="nav-link d-flex align-items-center"
+    routerLink="/{{ appRoutes.approvals }}"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/approvals.svg"> -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 40 40"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="M85.7,681.858a2,2,0,0,0,2.829.012l0.012-.012,10.881-10.88a2.008,2.008,0,0,0-2.84-2.84l-9.461,9.42-3.7-3.66a2.008,2.008,0,1,0-2.84,2.84ZM114.006,667h-4a2,2,0,1,0,0,4h4a2.027,2.027,0,0,1,2,2v2h-11a2,2,0,0,0,0,4h11v22a2.027,2.027,0,0,1-2,2H86a2.027,2.027,0,0,1-2-2V689a2,2,0,0,0-4,0v12a6.018,6.018,0,0,0,6,6h28a6.018,6.018,0,0,0,6-6V673A6.018,6.018,0,0,0,114.006,667Z"
+          transform="translate(-80 -667)"
+        />
+      </svg>
+    </div>
+    <span>Approvals</span>
+    <span *ngIf="approvalCount > 0" class="badge badge-danger">{{
+      approvalCount
+    }}</span>
+  </a>
+</li>
+
+<!-- Nav Item - Notifications -->
+<li
+  class="nav-item"
+  [class.active]="isCurrentRouteOneOf([appRoutes.notifications])"
+>
+  <a
+    class="nav-link d-flex align-items-center"
+    routerLink="/{{ appRoutes.notifications }}"
+    [queryParams]="{}"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/notifications.svg"> -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="20"
+        viewBox="0 0 36 40"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="M216,1070a2,2,0,0,0-2,2h0v1.27a18.059,18.059,0,0,1-14,6.73H188a6.006,6.006,0,0,0-6,6v4a6.006,6.006,0,0,0,6,6h0.967l-4.805,11.21a2,2,0,0,0,1.048,2.63,2.135,2.135,0,0,0,.79.16h8a2.006,2.006,0,0,0,1.838-1.21l5.447-12.71A18.026,18.026,0,0,1,214,1102.73V1104a2,2,0,0,0,4,0v-32a2,2,0,0,0-2-2h0Zm-28,22a2,2,0,0,1-2-2v-4a2,2,0,0,1,2-2h2v8h-2Zm4.681,14h-3.648l4.285-10h3.649ZM214,1097.04a22.075,22.075,0,0,0-14-5.04h-6v-8h6a22.132,22.132,0,0,0,14-5.04v18.08Z"
+          transform="translate(-182 -1070)"
+        />
+      </svg>
+    </div>
+    <span>Notifications</span>
+  </a>
+</li>
+
+<!-- Nav Item - Audit Log -->
+<li class="nav-item" [class.active]="isCurrentRouteOneOf([appRoutes.auditLog])">
+  <a
+    class="nav-link d-flex align-items-center"
+    routerLink="/{{ appRoutes.auditLog }}"
+    [queryParams]="{}"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/log.svg"> -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20.016"
+        height="19.969"
+        viewBox="0 0 40.031 39.938"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="M99.983,823.969h-14a2,2,0,0,1-2-2V794.017a2,2,0,0,1,2-2h10v5.99a6,6,0,0,0,6,5.99h6v2a2,2,0,0,0,4,0v-4.113a2.61,2.61,0,0,0-.12-0.539v-0.18a2.126,2.126,0,0,0-.38-0.559h0l-12-11.981h0a2.152,2.152,0,0,0-.56-0.379,0.6,0.6,0,0,0-.18,0,1.776,1.776,0,0,0-.66-0.22h-12.1a6,6,0,0,0-6,5.99v27.955a6,6,0,0,0,6,5.991h14A2,2,0,1,0,99.983,823.969Zm0-29.133,5.18,5.172h-3.18a2,2,0,0,1-2-2v-3.175Zm-10,5.172a2,2,0,1,0,0,3.993h2a2,2,0,1,0,0-3.993h-2Zm29.418,24.54-2.339-2.316a6.862,6.862,0,0,0-1.08-8.247h0a6.981,6.981,0,0,0-12,4.972,6.922,6.922,0,0,0,10.26,6.09l2.32,2.337a2,2,0,0,0,2.828.011l0.011-.011a1.994,1.994,0,0,0,.012-2.824Zm-6.339-3.494a3.084,3.084,0,0,1-4.22,0,3,3,0,0,1-.86-2.1,2.915,2.915,0,0,1,.88-2.116,3.016,3.016,0,0,1,5.115,1.891c0,0.075.006,0.15,0,.225A3,3,0,0,1,113.062,821.054ZM101.982,808h-12a2,2,0,1,0,0,3.993h12A2,2,0,1,0,101.982,808Zm-4,11.981a2,2,0,1,0,0-3.994h-8a2,2,0,1,0,0,3.994h8Z"
+          transform="translate(-79.969 -788.031)"
+        />
+      </svg>
+    </div>
+    <span>Audit Log</span>
+  </a>
+</li>
+
+<!-- Nav Item - Settings Collapse Menu -->
+<li
+  class="nav-item"
+  [class.active]="
+    isCurrentRouteOneOf([
+      appRoutes.integrations,
+      appRoutes.notificationSettings,
+      appRoutes.userManagement,
+      appRoutes.singleSignOn,
+      appRoutes.subscription
+    ])
+  "
+>
+  <a
+    class="nav-link with-collapse collapsed"
+    href="#"
+    data-toggle="collapse"
+    data-target="#collapseThree"
+    aria-expanded="true"
+    aria-controls="collapseThree"
+  >
+    <div class="nav-icon">
+      <!-- <img src="../../../assets/icons/settings.svg"> -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 40 40"
+      >
+        <path
+          class="fill-color"
+          fill-rule="evenodd"
+          d="M118.638,922.1l-3.78-1.26,1.78-3.56a2,2,0,0,0-.38-2.28L112,910.742a2,2,0,0,0-2.3-.38l-3.56,1.779-1.259-3.779A2,2,0,0,0,103,907H97a2,2,0,0,0-1.9,1.36l-1.26,3.78-3.559-1.78a2,2,0,0,0-2.28.38L83.742,915a2,2,0,0,0-.38,2.3l1.78,3.56-3.78,1.26A2,2,0,0,0,80,924v6a2,2,0,0,0,1.36,1.9l3.78,1.259-1.78,3.56a2,2,0,0,0,.38,2.28L88,943.258a2,2,0,0,0,2.3.38l3.56-1.78,1.26,3.78a2,2,0,0,0,1.9,1.36h6a2,2,0,0,0,1.9-1.36l1.26-3.78,3.56,1.78a2,2,0,0,0,2.26-.38L116.258,939a2,2,0,0,0,.38-2.3l-1.78-3.56,3.78-1.26A2,2,0,0,0,120,930v-6A2,2,0,0,0,118.638,922.1ZM116,928.56l-2.4.8a4,4,0,0,0-2.571,5.038,3.951,3.951,0,0,0,.251.6l1.14,2.28-2.2,2.2-2.22-1.2a4,4,0,0,0-5.363,1.8,3.927,3.927,0,0,0-.216.524l-0.8,2.4H98.44l-0.8-2.4A4,4,0,0,0,92,938.279l-2.28,1.14-2.2-2.2,1.2-2.22A4,4,0,0,0,87,929.61a4.06,4.06,0,0,0-.6-0.25l-2.4-.8v-3.12l2.4-.8A4,4,0,0,0,88.721,919l-1.14-2.22,2.2-2.2,2.22,1.14a4,4,0,0,0,5.639-2.32l0.8-2.4h3.12l0.8,2.4a4,4,0,0,0,5.038,2.571,3.951,3.951,0,0,0,.6-0.251l2.28-1.14,2.2,2.2-1.2,2.22a4,4,0,0,0,1.8,5.363,3.85,3.85,0,0,0,.524.216l2.4,0.8v3.18ZM100,919a8,8,0,1,0,8,8A8,8,0,0,0,100,919Zm0,12a4,4,0,1,1,4-4A4,4,0,0,1,100,931Z"
+          transform="translate(-80 -907)"
+        />
+      </svg>
+    </div>
+    <span>Settings</span>
+  </a>
+  <div
+    id="collapseThree"
+    class="collapse"
+    aria-labelledby="headingThree"
+    data-parent="#accordionSidebar"
+  >
+    <div class="collapse-inner">
+      <div class="sidebar-divider"></div>
+      <a
+        [class.active]="isCurrentRouteOneOf([appRoutes.notificationSettings])"
+        class="collapse-item"
+        routerLink="/{{ appRoutes.notificationSettings }}"
+      >
+        <div class="nav-icon">
+          <!-- <img src="../../../assets/icons/notifications.svg"> -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="20"
+            viewBox="0 0 36 40"
+          >
+            <path
+              class="fill-color"
+              fill-rule="evenodd"
+              d="M216,1070a2,2,0,0,0-2,2h0v1.27a18.059,18.059,0,0,1-14,6.73H188a6.006,6.006,0,0,0-6,6v4a6.006,6.006,0,0,0,6,6h0.967l-4.805,11.21a2,2,0,0,0,1.048,2.63,2.135,2.135,0,0,0,.79.16h8a2.006,2.006,0,0,0,1.838-1.21l5.447-12.71A18.026,18.026,0,0,1,214,1102.73V1104a2,2,0,0,0,4,0v-32a2,2,0,0,0-2-2h0Zm-28,22a2,2,0,0,1-2-2v-4a2,2,0,0,1,2-2h2v8h-2Zm4.681,14h-3.648l4.285-10h3.649ZM214,1097.04a22.075,22.075,0,0,0-14-5.04h-6v-8h6a22.132,22.132,0,0,0,14-5.04v18.08Z"
+              transform="translate(-182 -1070)"
+            />
+          </svg>
+        </div>
+        <span>Notifications</span>
+      </a>
+      <ng-container *ngIf="isUserAdmin">
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.subscription])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.subscription }}"
+        >
+          <div class="nav-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="18.015"
+              viewBox="0 0 40 36.031"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M117.969,841.094a8.6,8.6,0,1,0-7.34,4.116,8.755,8.755,0,0,0,4.48-1.259l3.44,3.456a2,2,0,0,0,2.828.012l0.012-.012a2,2,0,0,0,.011-2.825l-0.011-.012Zm-4-1.139a4.743,4.743,0,0,1-6.54,0,4.622,4.622,0,0,1,6.534-6.54l0.006,0.006A4.634,4.634,0,0,1,113.969,839.955Zm2-27.972h-28a6,6,0,0,0-6,5.994v17.982a6,6,0,0,0,6,5.994h8a2,2,0,1,0,0-4h-8a2,2,0,0,1-2-2V823.971h32v2a2,2,0,0,0,4,0v-7.992A6,6,0,0,0,115.969,811.983Zm2,7.992h-32v-2a2,2,0,0,1,2-2h28a2,2,0,0,1,2,2v2Zm-20,7.992h-6a2,2,0,1,0,0,4h6A2,2,0,1,0,97.97,827.967Z"
+                transform="translate(-81.969 -811.969)"
+              ></path>
+            </svg>
+          </div>
+          <span>Subscription</span>
+        </a>
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.singleSignOn])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.singleSignOn }}"
+        >
+          <div class="nav-icon">
+            <!-- <img src="../../../assets/icons/single-sign.svg"> -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="20.03"
+              viewBox="0 0 32 40.06"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M195,1148a2.987,2.987,0,0,0-2,5.23v2.78a2,2,0,1,0,4,0v-2.78A2.987,2.987,0,0,0,195,1148Zm10-8.01H189v-4.01a6,6,0,0,1,10.24-4.27,6.149,6.149,0,0,1,1.56,2.77,2,2,0,0,0,3.88-1h0a10.164,10.164,0,0,0-2.62-4.59,10,10,0,0,0-17.06,7.09v4.01a6,6,0,0,0-6,6.01v14.02a6,6,0,0,0,6,6.01h20a6,6,0,0,0,6-6.01V1146A6,6,0,0,0,205,1139.99Zm2,20.03a2,2,0,0,1-2,2H185a2,2,0,0,1-2-2V1146a2,2,0,0,1,2-2.01h20a2,2,0,0,1,2,2.01v14.02Z"
+                transform="translate(-179 -1125.97)"
+              />
+            </svg>
+          </div>
+          <span>Single Sign-on</span>
+        </a>
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.userManagement])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.userManagement }}"
+        >
+          <div class="nav-icon">
+            <!-- <img src="../../../assets/icons/user-management.svg"> -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22.016"
+              height="17"
+              viewBox="0 0 44.031 34"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M136.646,1151.44a9.826,9.826,0,0,0,3.407-7.44,10.02,10.02,0,0,0-20.039,0,9.828,9.828,0,0,0,3.406,7.44A16,16,0,0,0,114,1166a2,2,0,0,0,4.008,0,12.024,12.024,0,0,1,24.048,0,2,2,0,0,0,4.008,0A16,16,0,0,0,136.646,1151.44Zm-6.613-1.44a6,6,0,1,1,6.012-6A6.009,6.009,0,0,1,130.033,1150Zm19.519,0.64a10,10,0,0,0-7.5-16.64,2,2,0,1,0,0,4,5.988,5.988,0,0,1,3.006,11.18,1.995,1.995,0,0,0-.1,3.4l0.781,0.52,0.261,0.14a13.99,13.99,0,0,1,8.016,12.76,2,2,0,0,0,4.008,0A18,18,0,0,0,149.552,1150.64Z"
+                transform="translate(-114 -1134)"
+              />
+            </svg>
+          </div>
+          <span>User Management</span>
+        </a>
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.integrations])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.integrations }}"
+        >
+          <div class="nav-icon">
+            <!-- <img src="../../../assets/icons/integrations-icon.svg"> -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20.016"
+              height="19.985"
+              viewBox="0 0 40.031 39.97"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M142.144,1112.99H118.028a6.027,6.027,0,0,1-6.028-6.02v-20.06a5.9,5.9,0,0,1,6-5.91h2a8.163,8.163,0,0,1,8.234-7.98A7.79,7.79,0,0,1,136,1081h6a1.993,1.993,0,0,1,2,2v6a7.966,7.966,0,0,1,4.534,14.56A8.329,8.329,0,0,1,144,1105h0v6A1.868,1.868,0,0,1,142.144,1112.99ZM118,1085a1.9,1.9,0,0,0-1.981,1.91v20.06a2.01,2.01,0,0,0,2.009,2.01L140,1109v-6a2.974,2.974,0,0,1,.978-2.05,2.02,2.02,0,0,1,1.829-.26,3.573,3.573,0,0,0,3.5-.46A3.763,3.763,0,0,0,148,1097a3.406,3.406,0,0,0-.792-2.71,3.792,3.792,0,0,0-4.361-1.1,2.023,2.023,0,0,1-1.829-.27A2.713,2.713,0,0,1,140,1091v-6h-6a2.337,2.337,0,0,1-2.377-1.99,2.021,2.021,0,0,1,.111-0.78,3.548,3.548,0,0,0-.462-3.49,3.905,3.905,0,0,0-5.338-1.38,3.822,3.822,0,0,0-1.877,3.53,3.781,3.781,0,0,0,.262,1.34,2.011,2.011,0,0,1-1.234,2.56A5.732,5.732,0,0,1,122,1085h-4Z"
+                transform="translate(-112 -1073.03)"
+              />
+            </svg>
+          </div>
+          <span>Integrations</span>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</li>
+
+<!-- Nav Item - Superadmin Area Collapse Menu -->
+<ng-container *ngIf="isUserSuperAdmin">
+  <li
+    class="nav-item"
+    [class.active]="
+      isCurrentRouteOneOf([appRoutes.subscriptions, appRoutes.superAdminUsers])
+    "
+  >
+    <a
+      class="nav-link with-collapse collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseOne"
+      aria-expanded="true"
+      aria-controls="collapseOne"
+    >
+      <div class="nav-icon">
+        <!-- <img src="../../../assets/icons/public.svg"> -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 40 40"
+        >
+          <path
+            class="fill-color"
+            fill-rule="evenodd"
+            d="M118.792,468.266v-0.1a20.023,20.023,0,0,0-37.614,0v0.1a19.784,19.784,0,0,0,0,13.471v0.1a20.023,20.023,0,0,0,37.614,0v-0.1A19.794,19.794,0,0,0,118.792,468.266ZM84.443,479.011a15.688,15.688,0,0,1,0-8.019h3.725a33.56,33.56,0,0,0,0,8.019H84.443Zm1.642,4.009h2.8a24.394,24.394,0,0,0,2,5.152A16.039,16.039,0,0,1,86.085,483.02Zm2.8-16.037h-2.8a16.024,16.024,0,0,1,4.747-5.152A24.363,24.363,0,0,0,88.889,466.983Zm9.053,23.454a12.711,12.711,0,0,1-4.867-7.417h4.867v7.417Zm0-11.426H92.214a28.812,28.812,0,0,1,0-8.019h5.728v8.019Zm0-12.028H93.075a12.708,12.708,0,0,1,4.867-7.417v7.417Zm15.862,0H111a24.408,24.408,0,0,0-2-5.152A16.02,16.02,0,0,1,113.8,466.983Zm-11.856-7.417a12.717,12.717,0,0,1,4.867,7.417h-4.867v-7.417Zm0,30.871V483.02h4.867A12.72,12.72,0,0,1,101.948,490.437Zm5.728-11.426h-5.728v-8.019h5.728A28.873,28.873,0,0,1,107.676,479.011Zm1.382,9.161a24.486,24.486,0,0,0,2-5.152h2.8A16.03,16.03,0,0,1,109.058,488.172Zm6.389-9.161h-3.726a33.473,33.473,0,0,0,0-8.019h3.726A15.7,15.7,0,0,1,115.447,479.011Z"
+            transform="translate(-80 -455)"
+          />
+        </svg>
+      </div>
+      <span>Global</span>
+    </a>
+    <div
+      id="collapseOne"
+      class="collapse"
+      aria-labelledby="headingFour"
+      data-parent="#accordionSidebar"
+    >
+      <div class="collapse-inner">
+        <div class="sidebar-divider"></div>
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.subscriptions])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.subscriptions }}"
+        >
+          <div class="nav-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="18.015"
+              viewBox="0 0 40 36.031"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M117.969,841.094a8.6,8.6,0,1,0-7.34,4.116,8.755,8.755,0,0,0,4.48-1.259l3.44,3.456a2,2,0,0,0,2.828.012l0.012-.012a2,2,0,0,0,.011-2.825l-0.011-.012Zm-4-1.139a4.743,4.743,0,0,1-6.54,0,4.622,4.622,0,0,1,6.534-6.54l0.006,0.006A4.634,4.634,0,0,1,113.969,839.955Zm2-27.972h-28a6,6,0,0,0-6,5.994v17.982a6,6,0,0,0,6,5.994h8a2,2,0,1,0,0-4h-8a2,2,0,0,1-2-2V823.971h32v2a2,2,0,0,0,4,0v-7.992A6,6,0,0,0,115.969,811.983Zm2,7.992h-32v-2a2,2,0,0,1,2-2h28a2,2,0,0,1,2,2v2Zm-20,7.992h-6a2,2,0,1,0,0,4h6A2,2,0,1,0,97.97,827.967Z"
+                transform="translate(-81.969 -811.969)"
+              ></path>
+            </svg>
+          </div>
+          <span>Subscriptions</span>
+        </a>
+        <a
+          [class.active]="isCurrentRouteOneOf([appRoutes.superAdminUsers])"
+          class="collapse-item"
+          routerLink="/{{ appRoutes.superAdminUsers }}"
+        >
+          <div class="nav-icon">
+            <!-- <img src="../../../assets/icons/user-management.svg"> -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22.016"
+              height="17"
+              viewBox="0 0 44.031 34"
+            >
+              <path
+                class="fill-color"
+                fill-rule="evenodd"
+                d="M136.646,1151.44a9.826,9.826,0,0,0,3.407-7.44,10.02,10.02,0,0,0-20.039,0,9.828,9.828,0,0,0,3.406,7.44A16,16,0,0,0,114,1166a2,2,0,0,0,4.008,0,12.024,12.024,0,0,1,24.048,0,2,2,0,0,0,4.008,0A16,16,0,0,0,136.646,1151.44Zm-6.613-1.44a6,6,0,1,1,6.012-6A6.009,6.009,0,0,1,130.033,1150Zm19.519,0.64a10,10,0,0,0-7.5-16.64,2,2,0,1,0,0,4,5.988,5.988,0,0,1,3.006,11.18,1.995,1.995,0,0,0-.1,3.4l0.781,0.52,0.261,0.14a13.99,13.99,0,0,1,8.016,12.76,2,2,0,0,0,4.008,0A18,18,0,0,0,149.552,1150.64Z"
+                transform="translate(-114 -1134)"
+              />
+            </svg>
+          </div>
+          <span>SuperAdmin Users</span>
+        </a>
+      </div>
+    </div>
+  </li>
+  <li
+    class="nav-item"
+    [class.active]="isCurrentRouteOneOf([appRoutes.hangfireDashboard])"
+  >
+    <a
+      class="nav-link d-flex align-items-center"
+      routerLink="/{{ appRoutes.hangfireDashboard }}"
+    >
+      <div class="nav-icon">
+        <!-- <img src="../../../assets/icons/approvals.svg"> -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="19.984"
+          height="16"
+          viewBox="0 0 39.969 32"
+        >
+          <path
+            class="fill-color"
+            fill-rule="evenodd"
+            d="M99.985,216C88.949,216,80,225.239,80,236.639a21.173,21.173,0,0,0,2.677,10.322,1.971,1.971,0,0,0,2.738.763,2.109,2.109,0,0,0,.739-2.828h0A16.765,16.765,0,0,1,84,236.639a16,16,0,1,1,31.973.013,16.931,16.931,0,0,1-2.138,8.244,2.1,2.1,0,0,0,.728,2.821,0.067,0.067,0,0,0,.011.007,1.964,1.964,0,0,0,2.718-.763,21.018,21.018,0,0,0-7.314-28.2A19.494,19.494,0,0,0,99.985,216Zm5.676,11.89-3.1,3.179a5.665,5.665,0,0,0-2.578-.619,6.221,6.221,0,1,0,5.4,3.551l3.1-3.179a2.114,2.114,0,0,0,.011-2.92l-0.011-.012A1.954,1.954,0,0,0,105.661,227.886ZM99.985,238.7a2.065,2.065,0,0,1,0-4.128,1.959,1.959,0,0,1,1.4.578h0a2.1,2.1,0,0,1,.6,1.486A2.032,2.032,0,0,1,99.985,238.7Z"
+            transform="translate(-80 -216)"
+          />
+        </svg>
+      </div>
+      <span>Hangfire</span>
+    </a>
+  </li>
+</ng-container>
+
+<!-- Nav Item - Utilities Collapse Menu -->
+<!-- <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Utilities</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Custom Utilities:</h6>
+            <a class="collapse-item" href="utilities-color.html">Colors</a>
+            <a class="collapse-item" href="utilities-border.html">Borders</a>
+            <a class="collapse-item" href="utilities-animation.html">Animations</a>
+            <a class="collapse-item" href="utilities-other.html">Other</a>
+          </div>
+        </div>
+      </li> -->
+
+<!-- Divider -->
+<!-- <hr class="sidebar-divider"> -->
+
+<!-- Heading -->
+<!-- <div class="sidebar-heading">
+        Addons
+      </div> -->
+
+<!-- Nav Item - Pages Collapse Menu -->
+<!-- <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Pages</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Login Screens:</h6>
+            <a class="collapse-item" href="login.html">Login</a>
+            <a class="collapse-item" href="register.html">Register</a>
+            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Other Pages:</h6>
+            <a class="collapse-item" href="404.html">404 Page</a>
+            <a class="collapse-item" href="blank.html">Blank Page</a>
+          </div>
+        </div>
+      </li> -->
+
+<!-- Nav Item - Charts -->
+<!-- <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Charts</span></a>
+      </li> -->
+
+<!-- Nav Item - Tables -->
+<!-- <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+      </li> -->
+
+<!-- Divider -->
+<!-- <hr class="sidebar-divider d-none d-md-block"> -->

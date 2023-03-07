@@ -1,0 +1,226 @@
+<div class="container-fluid mt-4 mx-3">
+  <!-- Page Heading -->
+  <div class="row d-flex align-items-center justify-content-between mb-4">
+    <div class="col">
+      <p class="mb-0">Settings/</p>
+      <h3 class="mb-2">Integrations</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-auto">
+      <!-- Default Card Example -->
+      <div class="card grey-bg p-4">
+        <div class="card-header d-flex align-items-center">
+          <img src="assets/images/apps/microsoft.png" class="mr-2" />
+          <h4>Microsoft Endpoint Manager</h4>
+        </div>
+        <div class="card-body">
+          <!-- If not established start -->
+          <ng-container
+            *ngIf="!isGraphConfigAvailable; else graphConfiguredTemplate"
+          >
+            <p>
+              Please provide the following info below for us to integrate with
+              your Microsoft Endpoint Manager installation.
+            </p>
+            <form
+              (ngSubmit)="integrationsForm.form.valid && submit()"
+              #integrationsForm="ngForm"
+            >
+              <div class="form-group">
+                <input
+                  name="clientId"
+                  [(ngModel)]="graphConfigDto.clientId"
+                  #clientId="ngModel"
+                  maxlength="40"
+                  required
+                  class="form-control intune-input"
+                  placeholder="Client Id"
+                />
+                <div
+                  *ngIf="
+                    integrationsForm.submitted &&
+                    clientId.invalid &&
+                    clientId.errors?.required
+                  "
+                  class="alert alert-danger"
+                >
+                  Client Id is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  name="clientSecret"
+                  [(ngModel)]="graphConfigDto.clientSecret"
+                  #clientSecret="ngModel"
+                  maxlength="40"
+                  required
+                  class="form-control intune-input"
+                  placeholder="Client secret"
+                />
+                <div
+                  *ngIf="
+                    integrationsForm.submitted &&
+                    clientSecret.invalid &&
+                    clientSecret.errors?.required
+                  "
+                  class="alert alert-danger"
+                >
+                  Client secret is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  name="tenant"
+                  [(ngModel)]="graphConfigDto.tenant"
+                  #tenant="ngModel"
+                  maxlength="40"
+                  required
+                  class="form-control intune-input"
+                  placeholder="Azure tenant"
+                />
+                <div
+                  *ngIf="
+                    integrationsForm.submitted &&
+                    tenant.invalid &&
+                    tenant.errors?.required
+                  "
+                  class="alert alert-danger"
+                >
+                  Azure tenant is required.
+                </div>
+              </div>
+              <button class="btn btn-primary mt-4">Establish trust</button>
+            </form>
+          </ng-container>
+          <!--If not established end -->
+          <!-- If established start -->
+          <ng-template #graphConfiguredTemplate>
+            <p *ngIf="!isGraphCommunicationAvailable" class="error-message">
+              {{ connectionError }}
+            </p>
+            <div class="row mb-2">
+              <div class="col-auto">
+                <button
+                  type="button"
+                  class="btn w-icon mr-4"
+                  [class]="
+                    isGraphCommunicationAvailable ? 'green w-hover' : 'red'
+                  "
+                  (click)="removeGraphConfig()"
+                >
+                  <span
+                    *ngIf="isGraphCommunicationAvailable"
+                    class="normal d-flex align-items-center justify-content-center"
+                  >
+                    <div class="mr-2">
+                      <img src="assets/icons/trust.svg" />
+                    </div>
+                    <div class="text-success">Trust established</div>
+                  </span>
+                  <span
+                    class="d-flex align-items-center justify-content-center"
+                    [ngClass]="[
+                      isGraphCommunicationAvailable ? 'hover' : 'normal'
+                    ]"
+                  >
+                    <div class="icon mr-2">
+                      <img src="assets/icons/remove.svg" />
+                    </div>
+                    <div class="text-white">Remove trust</div>
+                  </span>
+                </button>
+              </div>
+              <div class="col-auto">
+                <div class="input-group minw-200">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary w-info w-icon rounded-right-0 border-right-0"
+                    (click)="getGraphStatus()"
+                  >
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="d-flex align-items-center justify-content-center"
+                      >
+                        <div class="icon mr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            viewBox="0 0 39.97 28"
+                          >
+                            <path
+                              fill="#00114a"
+                              fill-rule="evenodd"
+                              d="M1190.39,954.569l-7.99-8a2.009,2.009,0,1,0-2.84,2.842l4.6,4.583h-23.17a2,2,0,0,0,0,4h27.99A2.015,2.015,0,0,0,1190.39,954.569Zm-9.41,7.425H1153a2.014,2.014,0,0,0-1.42,3.422l7.99,8a2,2,0,0,0,2.83.012,0.011,0.011,0,0,0,.01-0.012,2,2,0,0,0,.01-2.83s0-.008-0.01-0.011L1157.82,966h23.16A2,2,0,0,0,1180.98,961.994Z"
+                              transform="translate(-1151 -946)"
+                            />
+                          </svg>
+                        </div>
+                        Test integration
+                      </div>
+                    </div>
+                  </button>
+                  <div class="input-group-append">
+                    <div
+                      *ngIf="connectionResult"
+                      class="btn btn-outline-primary w-info w-icon disabled d-flex align-items-center justify-content-center"
+                    >
+                      <div
+                        *ngIf="!isGraphCommunicationAvailable"
+                        class="icon mr-2"
+                      >
+                        <img src="assets/icons/fail.svg" />
+                      </div>
+
+                      <div
+                        *ngIf="isGraphCommunicationAvailable"
+                        class="icon mr-2"
+                      >
+                        <img src="assets/icons/success.svg" />
+                      </div>
+                      {{ connectionResult }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-4 col-form-label h4" for="tenantId"
+                >Tenant id</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="tenantId"
+                  [value]="organizationDto?.id"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-4 col-form-label h4" for="tenantId"
+                >Tenant name</label
+              >
+              <div class="col-sm-8">
+                <p
+                  [title]="organizationDto?.displayName"
+                  class="text-truncate maxw-320"
+                >
+                  <!-- <input
+                    type="text"
+                    readonly
+                    class="form-control-plaintext"
+                    id="tenantId"
+                    value=""
+                  /> -->
+                  {{ organizationDto?.displayName }}
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

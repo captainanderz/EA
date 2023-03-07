@@ -1,0 +1,24 @@
+$primary: #004d50;
+$secondary: #efe9e2;
+
+$enable-negative-margins: true;
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/utilities";
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "background-color": (
+      property: background-color,
+      class: bg,
+      values: map-merge(
+        $theme-colors,
+        (
+          "gray-200": $gray-200,
+        )
+      )
+    ),
+  )
+);

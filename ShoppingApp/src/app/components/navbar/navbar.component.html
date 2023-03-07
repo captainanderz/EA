@@ -1,0 +1,58 @@
+<nav
+  class="navbar sticky-top navbar-expand-lg navbar-light bg-primary shadow-sm"
+>
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['/']">
+      <div class="me-auto box logo">
+        <img
+          class="circle-image w-100 h-100"
+          src="{{
+            subscriptionDto?.logoSmall || '../../../assets/icons/building.svg'
+          }}"
+        />
+      </div>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li
+          class="nav-item"
+          ngbDropdown
+          display="dynamic"
+          placement="bottom-end"
+        >
+          <a
+            class="nav-link text-light"
+            tabindex="0"
+            ngbDropdownToggle
+            id="navbarDropdown3"
+            role="button"
+          >
+            {{ activeAccount?.name || "None" }}
+          </a>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown3"
+            class="dropdown-menu"
+          >
+            <div>
+              <a ngbDropdownItem [routerLink]="['/requests']">Requests</a>
+              <div class="dropdown-divider"></div>
+            </div>
+            <a ngbDropdownItem (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

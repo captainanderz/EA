@@ -1,0 +1,39 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $(appName)
+  labels:
+    app: $(appName)
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: $(appName)
+  template:
+    metadata:
+      labels:
+        app: $(appName)
+        aadpodidbinding: horizon-identity-binding-selector
+    spec:
+      containers:
+      - name: $(appName)
+        image: projecthorizon.azurecr.io/horizonkubernetescluster560d:$(Build.BuildId)
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Staging
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/mnt"
+          name: volume
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW # mitigation for running AAD Pod Identity
+                      # https://azure.github.io/aad-pod-identity/docs/configure/aad_pod_identity_on_kubenet/ 
+      volumes:
+      - name: volume
+        persistentVolumeClaim:
+          claimName: horizon-pv-claim

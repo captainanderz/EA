@@ -1,0 +1,262 @@
+<div class="container-fluid mt-4 table-layout">
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-auto">
+      <div class="col">
+        <p class="mb-0">Applications/</p>
+        <h3 class="mb-2">Deployment Schedules</h3>
+      </div>
+    </div>
+    <div class="col" *ngIf="loggedInUser?.userRole !== userRole.Reader">
+      <div class="row justify-content-end">
+        <div class="d-flex align-items-center justify-content-end input-group">
+          <div class="col col-lg-auto d-flex justify-content-end">
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyBulkActions()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option>Copy</option>
+              <option>Delete</option>
+            </app-bulk-actions>
+          </div>
+          <div
+            class="col col-lg-auto d-flex justify-content-end"
+            *ngIf="
+              loggedInUser?.userRole === userRole.SuperAdmin ||
+              loggedInUser?.userRole === userRole.Administrator ||
+              loggedInUser?.userRole === userRole.Contributor
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-success w-icon w-100 ml-4"
+              routerLink="{{ appRoutes.new }}"
+              [queryParams]="{}"
+            >
+              <div class="d-flex align-items-center">
+                <div class="icon mr-2">
+                  <!-- <img src="../../../assets/icons/plus.svg" /> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="#fff"
+                      fill-rule="evenodd"
+                      d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                      transform="translate(-3449 -249)"
+                    />
+                  </svg>
+                </div>
+                <span class="text-truncate">New schedule</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <div class="th-inner">
+                  <label>
+                    <container-element [ngSwitch]="getSelectionState()">
+                      <input
+                        *ngSwitchCase="SelectionState.None"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.Partial"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="true"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.All"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="true"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                    </container-element>
+                  </label>
+                </div>
+                <div class="fht-cell"></div>
+              </th>
+              <th>
+                <div class="th-inner">Name</div>
+              </th>
+              <th>
+                <div class="th-inner">Progress</div>
+              </th>
+              <th>
+                <div class="th-inner">
+                  Applications
+                  <div class="info ml-2">
+                    <span class="icon">
+                      <!-- <img src="../../../assets/icons/info.svg" /> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          class="fill-color"
+                          d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                          transform="translate(-2032 -423)"
+                        />
+                      </svg>
+                    </span>
+                    <div class="popup">
+                      <p>
+                        The number of applications a deployment schedule is
+                        assigned to
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="th-inner">Last Updated</div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let deploymentSchedule of pagedItems">
+              <!-- Select -->
+              <td
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <label>
+                  <input
+                    #selectDeploymentSchedule
+                    name="btSelectItem"
+                    type="checkbox"
+                    [checked]="isItemSelected(deploymentSchedule.id)"
+                    (change)="toggleSelectItem(deploymentSchedule.id)"
+                  />
+                </label>
+              </td>
+              <!-- Name -->
+              <td>
+                <span class="name">{{ deploymentSchedule.name }}</span>
+              </td>
+              <!-- Progress -->
+              <td>
+                {{
+                  deploymentSchedule.isInProgress
+                    ? "In progress"
+                    : "Not in progress"
+                }}
+              </td>
+              <!--Number of applications assigned -->
+              <td>
+                {{ deploymentSchedule.numberOfApplicationsAssigned }}
+              </td>
+              <!-- Last Updated-->
+              <td>
+                {{
+                  deploymentSchedule.modifiedOn + "Z"
+                    | date : "dd/MM/yyyy HH:mm"
+                }}
+              </td>
+              <!--Kebab Menu-->
+              <td class="text-right">
+                <div class="nav-item dropdown no-arrow table-dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <img src="../../../assets/icons/more-icon.svg" />
+                  </a>
+                  <div
+                    *ngIf="!deploymentSchedule.isDeleted"
+                    class="dropdown-menu dropdown-menu-right shadow"
+                    aria-labelledby="userDropdown"
+                  >
+                    <a
+                      class="dropdown-item"
+                      routerLink="{{
+                        appRoutes.details + '/' + deploymentSchedule.id
+                      }}"
+                      >Details</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <ng-container
+                      *ngIf="loggedInUser?.userRole !== userRole.Reader"
+                    >
+                      <a
+                        class="dropdown-item"
+                        (click)="copyDeploymentSchedule(deploymentSchedule.id)"
+                        >Copy</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a
+                        [class.disabled]="deploymentSchedule.isInProgress"
+                        class="dropdown-item"
+                        routerLink="{{
+                          appRoutes.edit + '/' + deploymentSchedule.id
+                        }}"
+                        >Edit</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a
+                        class="dropdown-item"
+                        (click)="
+                          startDeleteDeploymentSchedule(deploymentSchedule.id)
+                        "
+                        >Delete</a
+                      >
+                    </ng-container>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,214 @@
+<div class="container-fluid mt-4 table-layout">
+  <!-- Page Heading -->
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-auto">
+      <div class="col">
+        <p class="mb-0">Settings/</p>
+        <h3 class="mb-2">User Management</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row justify-content-end">
+        <div class="d-flex align-items-center justify-content-end input-group">
+          <div class="col col-lg-auto d-flex justify-content-end">
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyUserBulkOption()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option
+                *ngFor="let userBulkOption of userBulkOptions"
+                [value]="userBulkOption"
+              >
+                {{ displayUserBulkOption(userBulkOption) }}
+              </option>
+            </app-bulk-actions>
+          </div>
+          <div
+            class="col col-lg-auto d-flex justify-content-end"
+            *ngIf="
+              loggedInUser?.userRole === userRole.SuperAdmin ||
+              loggedInUser?.userRole === userRole.Administrator
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-success w-icon w-100"
+              (click)="openInviteUserModal()"
+            >
+              <div class="d-flex align-items-center">
+                <div class="icon mr-2">
+                  <!-- <img src="../../../assets/icons/plus.svg" /> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="#fff"
+                      fill-rule="evenodd"
+                      d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                      transform="translate(-3449 -249)"
+                    />
+                  </svg>
+                </div>
+                <span class="text-truncate">Invite user</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th class="bs-checkbox" style="width: 36px">
+                <div class="th-inner">
+                  <label>
+                    <container-element [ngSwitch]="getSelectionState()">
+                      <input
+                        *ngSwitchCase="SelectionState.None"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="false"
+                        (change)="selectAll()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.Partial"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="true"
+                        (change)="selectAll()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.All"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="true"
+                        [indeterminate]="false"
+                        (change)="selectAll()"
+                      />
+                    </container-element>
+                  </label>
+                </div>
+              </th>
+              <th>
+                <div class="th-inner">Name</div>
+              </th>
+              <th>
+                <div class="th-inner">E-Mail</div>
+              </th>
+              <th>
+                <div class="th-inner">Role</div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of pagedItems; index as i">
+              <td class="bs-checkbox" style="width: 36px">
+                <label>
+                  <input
+                    #selectUser
+                    name="btSelectItem"
+                    type="checkbox"
+                    [checked]="isItemSelected(user.id)"
+                    (change)="toggleSelectItem(user.id)"
+                    [disabled]="user.id === loggedInUser.id"
+                  />
+                </label>
+              </td>
+              <td class="d-flex align-items-center">
+                <div
+                  class="circle-image-wrapper mr-3"
+                  style="height: 38px; width: 38px"
+                >
+                  <img
+                    src="{{
+                      user.profilePictureSmall ||
+                        '../../../assets/images/blank-profile.png'
+                    }}"
+                    class="circle-image"
+                  />
+                </div>
+                <span class="name">
+                  {{ user.firstName + " " + user.lastName }}
+                </span>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.userRole }}</td>
+              <td class="text-right">
+                <div class="nav-item dropdown no-arrow table-dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <img src="assets/icons/more-icon.svg" />
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-right shadow"
+                    aria-labelledby="userDropdown"
+                  >
+                    <button
+                      class="dropdown-item"
+                      (click)="changeUserRole(user.id)"
+                      [disabled]="user.id === loggedInUser.id"
+                    >
+                      Change role
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button
+                      class="dropdown-item"
+                      (click)="removeUser(user.id)"
+                      [disabled]="user.id === loggedInUser.id"
+                    >
+                      Remove
+                    </button>
+                    <div *ngIf="isUserSuperAdmin">
+                      <div class="dropdown-divider"></div>
+                      <button
+                        class="dropdown-item"
+                        (click)="toggleTwoFactorAuthentication(user.id)"
+                      >
+                        {{
+                          user.twoFactorRequired ? "Disable 2FA" : "Enable 2FA"
+                        }}
+                      </button>
+                    </div>
+                    <div *ngIf="isUserSuperAdmin">
+                      <div class="dropdown-divider"></div>
+                      <button
+                        class="dropdown-item"
+                        (click)="makeUserSuperAdmin(user.id)"
+                      >
+                        Make SuperAdmin
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

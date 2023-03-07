@@ -1,0 +1,21 @@
+﻿kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: horizon-azure-file
+provisioner: kubernetes.io/azure-file
+reclaimPolicy: Retain
+parameters:
+  skuName: Standard_LRS
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: horizon-pv-claim
+  namespace: ingress-basic
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: horizon-azure-file
+  resources:
+    requests:
+      storage: 10Gi

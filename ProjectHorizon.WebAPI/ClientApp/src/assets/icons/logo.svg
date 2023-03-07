@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="30" viewBox="0 0 68 60">
+  <defs>
+    <style>
+      .logo-cls-1 {
+        fill: #00baff;
+      }
+
+      .logo-cls-2 {
+        opacity: 0.64;
+        mix-blend-mode: overlay;
+      }
+
+      .logo-cls-3 {
+        fill: #00114a;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <circle class="logo-cls-1" cx="38" cy="30" r="30"/>
+  <circle class="logo-cls-2" cx="38" cy="30" r="23"/>
+  <path class="logo-cls-3" d="M45.995,76.9c3.378-2.675,6.941-3.311,11.741,2.854a16.036,16.036,0,0,0,1.349,1.556,15.6,15.6,0,0,0,22.3,0,16.168,16.168,0,0,0,0-22.627,15.6,15.6,0,0,0-22.3,0,16.09,16.09,0,0,0-1.349,1.556c-4.8,6.165-8.363,5.529-11.741,2.854a8.565,8.565,0,0,0-11.478.69,8.879,8.879,0,0,0,0,12.425A8.565,8.565,0,0,0,45.995,76.9Z" transform="translate(-32 -40)"/>
+  <circle class="logo-cls-1" cx="38" cy="30" r="6"/>
+</svg>

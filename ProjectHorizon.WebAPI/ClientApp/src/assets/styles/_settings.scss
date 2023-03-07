@@ -1,0 +1,66 @@
+//User settings
+.user-img-container {
+  height: 120px;
+  width: 120px;
+  min-width: 120px;
+  border-radius: 50%;
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.user-img{
+  object-fit: scale-down; 
+  height:100%; 
+  width:100%;
+}
+
+.upload-info {
+  a {
+    color: $dark-blue;
+    .icon {
+      width: 20px;
+      min-width: 20px;
+      margin-right: 10px;
+    }
+  }
+}
+
+.form-info {
+  .input-group {
+    display: block;
+  }
+  input,
+  select {
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    height: 45px;
+    width: 100%;
+    padding: 0 10px;
+    background-size: 4%;
+    background-position: 95% 50%;
+    &:focus {
+      border-color: $blue;
+    }
+  }
+  textarea {
+    resize: none;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    height: 130px;
+    width: 100%;
+    padding: 10px;
+    &:focus {
+      border-color: $blue;
+      outline: none;
+    }
+  }
+  .btn {
+    min-width: 160px;
+  }
+}
+
+.photo-buttons-text {
+  padding-top: 3px;
+}

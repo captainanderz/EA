@@ -1,0 +1,63 @@
+@import "variables";
+/* Importing Bootstrap SCSS file. */
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+@include media-breakpoint-down(sm) {
+  .block-below-sm {
+      display: block !important;
+      width: 100%;
+  }
+}
+
+.hoverable:hover {
+  box-shadow: $box-shadow;
+}
+
+.glow {
+  box-shadow:
+    // inset 0 0 1rem 0.5rem $gray-600,      /* inner white */
+    0 0 5px 2px $secondary,            /* outer white */
+    0 1px 3px 0.01px $gray-600,
+}
+
+.glow-primary {
+  box-shadow:
+    // inset 0 0 1rem 0.5rem $gray-600,      /* inner white */
+    0 0 5px 2px $light, 
+    0 1px 3px 0.01px $gray-600,
+}
+
+.btn-hidden {
+  opacity: 0;
+}
+
+.hover:hover {
+  background-color: $gray-200;
+}
+
+tr:hover {
+  .btn-hidden {
+    opacity: 1 !important;
+    
+    &:hover {
+      background-color: $white;
+    }
+  }
+}
+
+.circle-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+
+  .circle-image {
+    position: absolute;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    max-width: none;
+  }
+}

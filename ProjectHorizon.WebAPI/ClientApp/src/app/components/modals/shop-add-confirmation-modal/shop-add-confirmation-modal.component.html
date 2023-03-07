@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h1 class="modal-title">Are you sure?</h1>
+  <button class="close" type="button" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    By continuing the application will be added to the shop and a new Azure
+    group will be created if it doesn't exist already.
+  </p>
+  <div class="form-group">
+    <label class="form-check-label" for="groupName">
+      <h4 class="modal-title">Group name</h4>
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      id="groupName"
+      [(ngModel)]="dto.groupName"
+    />
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="flexCheckDefault"
+      [(ngModel)]="dto.shouldCreateAssignmentProfile"
+    />
+    <label class="form-check-label text-muted" for="flexCheckDefault">
+      Create an assignment profile
+    </label>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="activeModal.close()"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-primary next" (click)="doContinue()">
+    Continue
+  </button>
+</div>

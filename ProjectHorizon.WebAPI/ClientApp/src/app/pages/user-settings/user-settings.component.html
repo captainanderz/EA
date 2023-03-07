@@ -1,0 +1,310 @@
+<div class="container-fluid mt-4 pb-4">
+  <div
+    class="row d-flex align-items-center justify-content-between mb-5 pl-3 pr-3"
+  >
+    <div class="col-lg-6">
+      <p class="mb-0">Settings/</p>
+      <h3 class="mb-2">Edit user profile</h3>
+    </div>
+  </div>
+
+  <div class="row pl-3 pr-3 upload-info">
+    <div class="col-12 d-flex align-items-center">
+      <div
+        class="mr-4 circle-image-wrapper"
+        style="height: 100px; width: 100px"
+      >
+        <img [src]="userImage" class="circle-image" />
+      </div>
+      <div>
+        <input
+          style="display: none"
+          type="file"
+          accept="image/png, image/jpeg"
+          (change)="onProfilePictureSelected($event)"
+          #profilePictureFileInput
+        />
+        <a
+          [routerLink]=""
+          class="d-flex align-items-center mb-3"
+          (click)="profilePictureFileInput.click()"
+        >
+          <div class="icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 40 40"
+            >
+              <path
+                fill="#00baff"
+                fill-rule="evenodd"
+                d="M970.42,544.4l4.58-4.6v19.193a2,2,0,1,0,4,0V539.8l4.58,4.6a2,2,0,0,0,2.828.012l0.012-.012a2,2,0,0,0,.012-2.83l-0.012-.012-8-8a2.068,2.068,0,0,0-2.84,0l-8,8a2.009,2.009,0,0,0,2.84,2.842h0ZM995,552.989a2,2,0,0,0-2,2V567a2,2,0,0,1-2,2H963a2,2,0,0,1-2-2V554.99a2,2,0,1,0-4,0V567a6,6,0,0,0,6,6h28a6,6,0,0,0,6-6V554.99A2,2,0,0,0,995,552.989Z"
+                transform="translate(-957 -533)"
+              ></path>
+            </svg>
+          </div>
+          <span class="photo-buttons-text">{{ addOrReplacePictureText }}</span>
+        </a>
+        <a
+          *ngIf="showDeletePicture"
+          [routerLink]=""
+          class="d-flex align-items-center"
+          (click)="deleteProfilePicture(); profilePictureFileInput.value = ''"
+        >
+          <div class="icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="20"
+              viewBox="0 0 36 40"
+            >
+              <path
+                fill="#ed1b65"
+                fill-rule="evenodd"
+                d="M993,620h-8v-2a6,6,0,0,0-6-6h-4a6,6,0,0,0-6,6v2h-8a2,2,0,0,0,0,4h2v22a6,6,0,0,0,6,6h16a6,6,0,0,0,6-6V624h2A2,2,0,0,0,993,620Zm-20-2a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2h-8v-2Zm14,28a2,2,0,0,1-2,2H969a2,2,0,0,1-2-2V624h20v22Z"
+                transform="translate(-959 -612)"
+              ></path>
+            </svg>
+          </div>
+          <span class="photo-buttons-text">Delete photo</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider mt-5 mb-5"></div>
+
+  <div class="row pl-3 pr-3">
+    <div class="col-12 mb-3">
+      <h3>User details</h3>
+    </div>
+  </div>
+  <form
+    (ngSubmit)="changeSettingsForm.form.valid && submitChangeSettings()"
+    #changeSettingsForm="ngForm"
+    class="row pl-3 pr-3 form-info"
+  >
+    <div class="input-group col-lg-6 mb-4">
+      <label>First name</label>
+      <input
+        name="firstName"
+        [(ngModel)]="userDto.firstName"
+        #firstName="ngModel"
+        required
+        unicodePattern="{{ patterns.personName }}"
+        maxlength="50"
+        placeholder="First name"
+      />
+      <div
+        *ngIf="changeSettingsForm.submitted && firstName.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="firstName.errors?.required">First name is required</div>
+        <div *ngIf="firstName.errors?.unicodePattern">
+          First name contains invalid characters
+        </div>
+      </div>
+    </div>
+    <div class="input-group col-lg-6 mb-4">
+      <label>Last name</label>
+      <input
+        name="lastName"
+        [(ngModel)]="userDto.lastName"
+        #lastName="ngModel"
+        required
+        unicodePattern="{{ patterns.personName }}"
+        maxlength="50"
+        placeholder="Last name"
+      />
+      <div
+        *ngIf="changeSettingsForm.submitted && lastName.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="lastName.errors?.required">Last name is required</div>
+        <div *ngIf="lastName.errors?.unicodePattern">
+          Last name contains invalid characters
+        </div>
+      </div>
+    </div>
+    <div class="input-group col-lg-6 mb-4">
+      <label>E-mail</label>
+      <input
+        name="email"
+        type="email"
+        [(ngModel)]="userDto.email"
+        #email="ngModel"
+        maxlength="256"
+        required
+        pattern="{{ patterns.email }}"
+        placeholder="E-mail"
+      />
+      <div
+        *ngIf="changeSettingsForm.submitted && email.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="email.errors?.required">Email is required.</div>
+        <div *ngIf="email.errors?.pattern">Please enter a valid email.</div>
+      </div>
+    </div>
+    <div class="input-group col-lg-6 mb-4">
+      <label>Phone</label>
+      <input
+        name="phoneNumber"
+        type="tel"
+        [(ngModel)]="userDto.phoneNumber"
+        maxlength="20"
+        #phoneNumber="ngModel"
+        placeholder="Phone number"
+      />
+      <div
+        *ngIf="changeSettingsForm.submitted && phoneNumber.invalid"
+        class="alert alert-danger"
+      >
+        The phone number is not valid.
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+
+  <div class="divider mt-5 mb-5"></div>
+
+  <div class="row pl-3 pr-3">
+    <div class="col-12 mb-3">
+      <h3>Change password</h3>
+    </div>
+  </div>
+  <form
+    (ngSubmit)="
+      changePasswordForm.form.valid && submitChangePassword(changePasswordForm)
+    "
+    #changePasswordForm="ngForm"
+    class="row pl-3 pr-3 mb-5 form-info"
+  >
+    <div class="input-group col-lg-6 mb-4">
+      <label>Current password</label>
+      <input
+        type="password"
+        name="currentPassword"
+        [(ngModel)]="changePasswordDto.currentPassword"
+        #currentPassword="ngModel"
+        maxlength="100"
+        required
+        pattern="{{ patterns.password }}"
+      />
+      <div
+        *ngIf="changePasswordForm.submitted && currentPassword.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="currentPassword.errors?.required">
+          Current password is required.
+        </div>
+        <div *ngIf="currentPassword.errors?.pattern">
+          Must contain at least a digit, an uppercase letter, a lowercase
+          letter, a special character, and at least 6 or more characters.
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6"></div>
+    <div class="input-group col-lg-6 mb-4">
+      <label>New password</label>
+      <input
+        type="password"
+        name="newPassword"
+        [(ngModel)]="changePasswordDto.newPassword"
+        #newPassword="ngModel"
+        maxlength="100"
+        required
+        pattern="{{ patterns.password }}"
+      />
+      <div *ngIf="changePasswordForm.submitted">
+        <div *ngIf="newPassword.errors?.required" class="alert alert-danger">
+          New password is required.
+        </div>
+        <div *ngIf="newPassword.errors?.pattern" class="alert alert-danger">
+          Must contain at least a digit, an uppercase letter, a lowercase
+          letter, a special character, and at least 6 or more characters.
+        </div>
+        <div
+          *ngIf="
+            changePasswordDto.newPassword === changePasswordDto.currentPassword
+          "
+          class="alert alert-danger"
+        >
+          New password cannot be the same as the current one.
+        </div>
+      </div>
+    </div>
+    <div class="input-group col-lg-6 mb-4">
+      <label>Repeat new password</label>
+      <input
+        name="confirmNewPassword"
+        type="password"
+        [(ngModel)]="changePasswordDto.confirmNewPassword"
+        #confirmNewPassword="ngModel"
+        maxlength="100"
+        required
+      />
+      <div
+        *ngIf="
+          changePasswordForm.submitted &&
+          (confirmNewPassword.invalid ||
+            changePasswordDto.newPassword !==
+              changePasswordDto.confirmNewPassword)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="confirmNewPassword.errors?.required">
+          Repeat password is required.
+        </div>
+        <div
+          *ngIf="
+            changePasswordDto.newPassword !==
+            changePasswordDto.confirmNewPassword
+          "
+        >
+          Passwords do not match.
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Change password</button>
+    </div>
+  </form>
+
+  <div class="divider mt-5 mb-5"></div>
+
+  <div class="row pl-3 pr-3">
+    <div class="col-12 mb-3">
+      <h3>Two-factor authentication</h3>
+    </div>
+    <div class="col-12 mb-3">
+      <div *ngIf="recoveryCodesNumber > 1">
+        You have {{ recoveryCodesNumber }} recovery codes left.
+      </div>
+      <div *ngIf="recoveryCodesNumber == 1">
+        You have one recovery code left, you should generate more.
+      </div>
+      <div *ngIf="recoveryCodesNumber < 1">
+        You don't have any recovery codes left, you should generate more.
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary ml-2"
+      [routerLink]="['/' + appRoutes.settingsRecoveryCodes]"
+      [queryParams]="{ showActivated: false }"
+    >
+      Generate recovery codes
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary ml-2"
+      routerLink="/{{ appRoutes.settingsSetupAuthenticator }}"
+    >
+      Setup authenticator app
+    </button>
+  </div>
+</div>

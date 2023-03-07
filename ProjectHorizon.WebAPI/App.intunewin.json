@@ -1,0 +1,28 @@
+{
+  "App": {
+    "installExperience": {
+      "runAsAccount": "system",
+      "@odata.type": "microsoft.graph.win32LobAppInstallExperience"
+    },
+    "setupFilePath": "Deploy-Application.exe",
+    "fileName": "App.intunewin",
+    "displayName": "App",
+    "@odata.type": "microsoft.graph.win32LobApp"
+  },
+  "File": {
+    "name": "App.intunewin",
+    "size": 1998001,
+    "sizeEncrypted": 1998064,
+    "@odata.type": "microsoft.graph.mobileAppContentFile"
+  },
+  "EncryptionInfo": {
+    "encryptionKey": "OPOsG9q1G5ZL1WX2GvGkkp8WjYsq72T5/j47UfmzXGw=",
+    "fileDigest": "LmXPIWY6j7AkfzQcPUTDdKMUtwQlad6h+mWumJhMuhU=",
+    "fileDigestAlgorithm": "SHA256",
+    "initializationVector": "CsZjN2hl795yMcI50Dklzw==",
+    "mac": "DGq8uP1FMf1ro5UV4VmJO1e/tNrYFVNS2Uxp5SJyW68=",
+    "macKey": "cINaXkKSE0P5ktqjzGRwgmFidGMHDuLvZYCAb3NDgG0=",
+    "profileIdentifier": "ProfileVersion1",
+    "@odata.type": "microsoft.graph.fileEncryptionInfo"
+  }
+}

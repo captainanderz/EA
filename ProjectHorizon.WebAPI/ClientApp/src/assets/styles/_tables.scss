@@ -1,0 +1,233 @@
+.table-layout {
+  .bootstrap-table {
+    margin: 0 -25px;
+    .fixed-table-container {
+      .fixed-table-body {
+        overflow: visible;
+      }
+      .table {
+        width: calc(100% - 1px);
+        border-bottom: none;
+        color: $gray-600;
+        thead {
+          @extend .sofia-semibold;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: #aeaeae;
+          background-color: rgba(186, 206, 222, 0.08);
+          border-bottom: 1px solid $border-color;
+          tr {
+            &:after {
+              content: none;
+            }
+          }
+          th {
+            .th-inner {
+              padding: 10px 20px;
+              display: inline-flex;
+              overflow: visible;
+            }
+            &:first-child {
+              padding-left: 20px;
+            }
+            &:last-child {
+              padding-right: 20px;
+            }
+            svg {
+              margin-top: -3px;
+            }
+          }
+        }
+        tbody {
+          @extend .sofia-light;
+          tr {
+            position: relative;
+            border-bottom: 1px solid $border-color;
+            td {
+              padding: 20px;
+              &:first-child {
+                padding-left: 40px;
+              }
+              &:last-child {
+                padding-right: 40px;
+              }
+              .name {
+                @extend .sofia-regular;
+                color: $dark-blue;
+              }
+            }
+            &:hover {
+              background-color: rgba(0, 186, 255, 0.04);
+              .hidden-btns {
+                opacity: 1;
+              }
+            }
+            &.selected {
+              td {
+                background-color: rgba($green, 0.06);
+              }
+            }
+            // &:after {
+            //   content: '';
+            //   width: calc(100% - 40px);
+            //   height: 1px;
+            //   position: absolute;
+            //   left: 20px;
+            //   border-bottom: 1px solid $border-color;
+            // }
+            &:first-child {
+              &:after {
+                content: none;
+              }
+            }
+          }
+        }
+        .icon {
+          img {
+            max-width: 40px;
+            width: 100%;
+            height: auto;
+            margin-top: -2px;
+          }
+        }
+        input {
+          font-size: 20px; //to keep boxes same size
+        }
+        svg {
+          margin-top: -5px;
+        }
+        .btn-small {
+          svg {
+            margin-top: 0px;
+          }
+        }
+      }
+    }
+  }
+  .profile-pic {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+  .user-img{
+    object-fit: scale-down; 
+    height:100%; 
+    width:100%;
+  }
+  .info {
+    position: relative;
+    cursor: pointer;
+    .icon {
+      svg {
+        .fill-color {
+          fill: #aeaeae;
+          fill-rule: evenodd;
+          opacity: 0.5;
+        }
+      }
+    }
+    .popup {
+      display: none;
+      background-color: $dark-blue;
+      border-radius: 4px;
+      position: absolute;
+      padding: 5px 5px;
+      top: 30px;
+      right: -90px;
+      min-height:25px;
+      max-height:200px;
+      min-width: 250px;
+      max-width: 390px;
+      text-align: center;
+      
+      p {
+        color: $white;
+        text-transform: initial;
+        font-size: 14px;
+        letter-spacing: 0;
+        margin-bottom: 0;
+        @extend .sofia-light;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: calc(50% + 22px);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid $dark-blue;
+        display: block;
+        z-index: 1111;
+      }
+    }
+    &:hover {
+      .icon {
+        svg {
+          .fill-color {
+            fill: $blue;
+            opacity: 1;
+          }
+        }
+      }
+      .popup {
+        display: block;
+        white-space: normal;
+        z-index: 1111;
+        
+        position: absolute;
+      }
+    }
+  }
+}
+.custom-toggle {
+  position: relative;
+  width: 38px;
+  height: 20px;
+  input {
+    position: absolute;
+    opacity: 0;
+  }
+  .toggle {
+    background-color: $grey;
+    width: 38px;
+    height: 20px;
+    border-radius: 10px;
+    position: absolute;
+    transition: ease 0.2s;
+    cursor: pointer;
+
+    .dot {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background-color: $white;
+      transition: ease 0.2s;
+    }
+  }
+  
+  input:disabled + .toggle {
+    opacity: 0.65;
+    cursor: default;
+  }
+
+  input:checked + .toggle {
+    background-color: $green;
+    .dot {
+      right: 2px;
+      left: auto;
+    }
+  }
+}
+

@@ -1,0 +1,30 @@
+<div class="vh-100 overflow-hidden bg-primary login-background">
+  <div class="position-absolute top-50 start-50 translate-middle">
+    <div class="text-light mx-3 fs-4 text-center mb-3">
+      <img src="assets/icons/logo-full.svg" alt="My Happy SVG" />
+    </div>
+    <div class="card">
+      <div
+        class="card-body d-flex flex-column align-items-center text-center p-4"
+      >
+        <h3 class="mb-4 text-primary fw-bold">
+          Welcome to <br />Endpoint Admin Shop
+        </h3>
+        <p class="w-75 text-wrap mx-auto mb-5">
+          To proceed to the shop you need to login with your Azure AD account
+        </p>
+        <button
+          type="button"
+          class="btn btn-xl btn-primary px-4 py-3 d-flex align-items-center"
+          (click)="azureLogin()"
+        >
+          <img
+            class="azure-label me-1 h-100"
+            src="assets/icons/ms-symbollockup_mssymbol.svg"
+          />
+          Login with Azure AD
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

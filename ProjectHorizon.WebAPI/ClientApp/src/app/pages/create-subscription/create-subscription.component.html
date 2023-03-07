@@ -1,0 +1,184 @@
+<div class="mb-4 d-flex justify-content-center">
+  <img src="assets/icons/logo-full.svg" />
+</div>
+<div class="card double o-hidden border-0">
+  <div class="card-body p-0">
+    <!-- Nested Row within Card Body -->
+    <div class="row">
+      <div class="col-12 col-lg-6 order-lg-2">
+        <div class="p-4 p-md-5">
+          <form
+            (ngSubmit)="subscriptionForm.form.valid && submit(subscriptionForm)"
+            #subscriptionForm="ngForm"
+            class="user payment"
+          >
+            <div class="form-group">
+              <h1 class="h3 mb-4">Billing info</h1>
+              <input
+                name="name"
+                [(ngModel)]="registrationDto.companyName"
+                #name="ngModel"
+                required
+                pattern="{{ patterns.notOnlyWhiteSpace }}"
+                maxlength="40"
+                class="form-control form-control-user"
+                placeholder="Company name"
+              />
+              <div
+                *ngIf="subscriptionForm.submitted && name.invalid"
+                class="alert alert-danger"
+              >
+                <div *ngIf="name.invalid">Company name is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="subscriptionEmail"
+                type="email"
+                [(ngModel)]="registrationDto.subscriptionEmail"
+                #subscriptionEmail="ngModel"
+                maxlength="256"
+                required
+                pattern="{{ patterns.email }}"
+                class="form-control form-control-user"
+                placeholder="E-mail"
+              />
+              <div
+                *ngIf="subscriptionForm.submitted && subscriptionEmail.invalid"
+                class="alert alert-danger"
+              >
+                <div *ngIf="subscriptionEmail.errors?.required">
+                  Email is required.
+                </div>
+                <div *ngIf="subscriptionEmail.errors?.pattern">
+                  Please enter a valid email.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <select
+                name="country"
+                class="form-control form-control-user"
+                [(ngModel)]="registrationDto.country"
+                #country="ngModel"
+                maxlength="100"
+                required
+              >
+                <option selected disabled hidden>
+                  {{ countrySelectionTag }}
+                </option>
+                <option
+                  *ngFor="let countryItem of countryList"
+                  [value]="countryItem"
+                >
+                  {{ countryItem }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  subscriptionForm.submitted &&
+                  registrationDto.country === countrySelectionTag
+                "
+                class="alert alert-danger"
+              >
+                Please select a country.
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="zipCode"
+                [(ngModel)]="registrationDto.zipCode"
+                #zipCode="ngModel"
+                required
+                maxlength="100"
+                class="form-control form-control-user"
+                placeholder="Zip code"
+              />
+              <div
+                *ngIf="
+                  subscriptionForm.submitted &&
+                  zipCode.invalid &&
+                  zipCode.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                Zip code is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="city"
+                [(ngModel)]="registrationDto.city"
+                #city="ngModel"
+                required
+                maxlength="100"
+                class="form-control form-control-user"
+                placeholder="City"
+              />
+              <div
+                *ngIf="
+                  subscriptionForm.submitted &&
+                  city.invalid &&
+                  city.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                City is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                name="vatNumber"
+                [(ngModel)]="registrationDto.vatNumber"
+                #vatNumber="ngModel"
+                required
+                maxlength="100"
+                class="form-control form-control-user"
+                placeholder="VAT Number"
+              />
+              <div
+                *ngIf="
+                  subscriptionForm.submitted &&
+                  vatNumber.invalid &&
+                  vatNumber.errors?.required
+                "
+                class="alert alert-danger"
+              >
+                VAT number is required.
+              </div>
+            </div>
+            <button class="btn btn-primary btn-user btn-block">
+              Continue to set up payment
+            </button>
+          </form>
+          <div class="text-center default-top-spacer">
+            <a routerLink="/{{ backButtonLink }}">
+              <span class="mr-2">
+                <!-- <img src="assets/icons/arrow-back.svg" /> -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16.44"
+                  height="10.895"
+                  viewBox="0 0 32.88 21.79"
+                >
+                  <path
+                    class="fill-color"
+                    fill-rule="evenodd"
+                    d="M1870,1403h-24.17l5.48,5.49a1.994,1.994,0,1,1-2.82,2.82l-8.8-8.8a2.256,2.256,0,0,1,0-3.02l8.8-8.8a1.994,1.994,0,1,1,2.82,2.82l-5.48,5.49H1870A2,2,0,0,1,1870,1403Z"
+                    transform="translate(-1839.12 -1390.12)"
+                  />
+                </svg>
+              </span>
+              Go back
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 order-lg-1 grey-bg cta">
+        <div class="p-4 p-md-5">
+          <app-trial-info></app-trial-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

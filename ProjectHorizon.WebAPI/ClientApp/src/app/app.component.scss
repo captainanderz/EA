@@ -1,0 +1,22 @@
+.app-overlay {
+  opacity: 0.8;
+  z-index: 2000;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#content {
+  position: relative
+}
+
+.app-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3rem;
+  height: 3rem;
+}

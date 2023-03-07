@@ -1,0 +1,55 @@
+// Custom Dropdown Styling
+
+.dropdown {
+  .dropdown-menu {
+    font-size: $dropdown-font-size;
+    padding: 0;
+    padding: 0;
+    .dropdown-header {
+      @extend .text-uppercase;
+      font-weight: 800;
+      font-size: 0.65rem;
+      color: $gray-500;
+    }
+  }
+  &.table-dropdown {
+    float: right;
+    .nav-link {
+      padding: 0;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      &:hover {
+        border-color: $border-color;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+      }
+    }
+    &.show {
+      .nav-link {
+        border-color: $border-color;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+      }
+    }
+    .dropdown-menu {
+      margin-top: 10px;
+    }
+  }
+}
+
+.dropdown-divider {
+  margin: 0;
+}
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+
+// Utility class to hide arrow from dropdown
+
+.dropdown.no-arrow {
+  .dropdown-toggle::after {
+    display: none;
+  }
+}

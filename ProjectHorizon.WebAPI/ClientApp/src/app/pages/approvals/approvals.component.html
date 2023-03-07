@@ -1,0 +1,159 @@
+<div class="container-fluid mt-4 table-layout">
+  <div
+    class="row d-flex align-items-center justify-content-between mb-4 pl-3 pr-3"
+  >
+    <div class="col-auto">
+      <div class="col">
+        <h3 class="mb-2">Approvals</h3>
+      </div>
+    </div>
+    <div class="col" *ngIf="loggedInUser?.userRole !== userRole.Reader">
+      <div class="row justify-content-end">
+        <div class="d-flex align-items-center justify-content-end input-group">
+          <div class="col col-sm-auto d-flex justify-content-end">
+            <app-bulk-actions
+              [(selectedOption)]="selectedOption"
+              (apply)="applyBulkActions()"
+              [enabled]="canApplyBulkAction()"
+            >
+              <option>Approve</option>
+              <option>Reject</option>
+            </app-bulk-actions>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bootstrap-table bootstrap4">
+    <div class="fixed-table-container" style="padding-bottom: 0px">
+      <div class="fixed-table-body">
+        <table class="table-borderless table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <div class="th-inner">
+                  <label>
+                    <container-element [ngSwitch]="getSelectionState()">
+                      <input
+                        *ngSwitchCase="SelectionState.None"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.Partial"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="false"
+                        [indeterminate]="true"
+                        (change)="selectAllItems()"
+                      />
+                      <input
+                        *ngSwitchCase="SelectionState.All"
+                        #allPublicApps
+                        name="btSelectAll"
+                        type="checkbox"
+                        [checked]="true"
+                        [indeterminate]="false"
+                        (change)="selectAllItems()"
+                      />
+                    </container-element>
+                  </label>
+                </div>
+                <div class="fht-cell"></div>
+              </th>
+              <th>
+                <div class="th-inner">Application</div>
+              </th>
+              <th>
+                <div class="th-inner">Architecture</div>
+              </th>
+              <th>
+                <div class="th-inner">Deployed version</div>
+              </th>
+              <th>
+                <div class="th-inner">New version</div>
+              </th>
+              <th>
+                <div class="th-inner">Last updated</div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let approval of pagedItems">
+              <td
+                *ngIf="loggedInUser?.userRole != userRole.Reader"
+                class="bs-checkbox"
+                style="width: 36px"
+              >
+                <label>
+                  <input
+                    #selectApproval
+                    name="btSelectItem"
+                    type="checkbox"
+                    [checked]="isItemSelected(approval.id)"
+                    (change)="toggleSelectItem(approval.id)"
+                  />
+                </label>
+              </td>
+              <td>
+                <span class="icon mr-2">
+                  <img [src]="approval.iconBase64" />
+                </span>
+                <span class="name">{{ approval.name }}</span>
+              </td>
+              <td>{{ displayArchitecture(approval.architecture) }}</td>
+              <td>{{ approval.deployedVersion }}</td>
+              <td>{{ approval.newVersion }}</td>
+              <td>
+                {{ approval.modifiedOn + "Z" | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+              <td>
+                <div
+                  class="hidden-btns"
+                  *ngIf="loggedInUser?.userRole !== userRole.Reader"
+                >
+                  <div class="d-flex align-items-center">
+                    <button
+                      type="button"
+                      class="btn-small transparent mr-2"
+                      (click)="approveDeploy(approval.id)"
+                    >
+                      <img src="assets/icons/checkmark.svg" />
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-small transparent"
+                      (click)="rejectDeploy(approval.id)"
+                    >
+                      <img src="assets/icons/reject.svg" />
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          *ngIf="allItemsCount"
+          [(page)]="pgNr"
+          [pageSize]="pageSize"
+          [collectionSize]="allItemsCount"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange()"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

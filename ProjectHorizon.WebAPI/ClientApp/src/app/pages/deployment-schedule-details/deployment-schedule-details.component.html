@@ -1,0 +1,375 @@
+<div class="container-fluid mt-4 table-layout">
+  <!--Title-->
+  <div class="mb-4 px-3">
+    <p class="mb-0">Applications/Deployment Schedules/</p>
+    <ng-container [ngSwitch]="action">
+      <h3 class="mb-2" *ngSwitchCase="Action.New">New</h3>
+      <h3 class="mb-2" *ngSwitchCase="Action.Edit">Edit</h3>
+      <h3 class="mb-2" *ngSwitchCase="Action.Details">Details</h3>
+    </ng-container>
+  </div>
+  <form
+    #deploymentScheduleForm="ngForm"
+    #deploymentScheduleFormElement
+    (ngSubmit)="
+      validatePhases() &&
+        markAllAsTouched(deploymentScheduleForm) &&
+        updateTreeValidity(deploymentScheduleForm.control) &&
+        focusInvalidInput(deploymentScheduleFormElementRef) &&
+        deploymentScheduleForm.valid &&
+        onSubmit()
+    "
+    id="deploymentScheduleForm"
+  >
+    <fieldset [disabled]="action == Action.Details ? 'disabled' : null">
+      <div class="row mb-5 justify-content-between">
+        <div class="col-12 col-md-8 col-lg-6 pr-2">
+          <!-- Name textbox -->
+          <input
+            [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+            name="deploymentScheduleName"
+            id="name"
+            class="form-control form-control-lg ml-3 mr-3 mr-lg-0"
+            #name="ngModel"
+            placeholder="Deployment Schedule Name"
+            [(ngModel)]="dto.name"
+            ngbAutofocus
+            maxlength="40"
+            required
+          />
+          <div
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="text-danger ml-3"
+          >
+            <div *ngIf="name.errors?.required">Required</div>
+          </div>
+        </div>
+
+        <!--Trigger-->
+        <div
+          class="col-12 col-lg-auto row align-items-center justify-content-end"
+        >
+          <div class="col-12 col-lg-auto px-4">
+            <div class="input-group ml-3 mx-lg-3">
+              <input
+                type="text"
+                id="triggerInput"
+                class="form-control"
+                value="{{ triggerValue }}"
+                readonly
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  (click)="setCronTrigger()"
+                >
+                  Set
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!--Add Phase Button-->
+          <div class="col-12 col-lg-auto px-4">
+            <button
+              type="button"
+              class="btn btn-success w-icon"
+              id="addNewPhaseBtn"
+              (click)="addPhase()"
+            >
+              <div class="d-flex align-items-center">
+                <div class="icon mr-2">
+                  <!-- <img src="../../../assets/icons/plus.svg" /> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="#fff"
+                      fill-rule="evenodd"
+                      d="M3479,263h-12V251a2,2,0,0,0-4,0v12h-12a2,2,0,0,0,0,4h12v12a2,2,0,0,0,4,0V267h12A2,2,0,0,0,3479,263Z"
+                      transform="translate(-3449 -249)"
+                    />
+                  </svg>
+                </div>
+                <span class="text-truncate">New phase</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!--Phases Table-->
+      <div class="bootstrap-table bootstrap4">
+        <div class="fixed-table-container mb-3">
+          <div class="table-responsive">
+            <table class="table-borderless table table-bordered">
+              <thead>
+                <tr>
+                  <div class="th-inner"></div>
+                  <th>
+                    <div class="th-inner">Phase Name</div>
+                  </th>
+                  <th>
+                    <div class="th-inner">
+                      Assignment profile
+                      <div class="info ml-2">
+                        <span class="icon">
+                          <!-- <img src="../../../assets/icons/info.svg" /> -->
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 32 32"
+                          >
+                            <path
+                              class="fill-color"
+                              d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                              transform="translate(-2032 -423)"
+                            />
+                          </svg>
+                        </span>
+                        <div class="popup">
+                          <p>
+                            The assignment profile that will be assigned to the
+                            instance when reaching the corresponding phase
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="th-inner">
+                      Offset
+                      <div class="info ml-2">
+                        <span class="icon">
+                          <!-- <img src="../../../assets/icons/info.svg" /> -->
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 32 32"
+                          >
+                            <path
+                              class="fill-color"
+                              d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                              transform="translate(-2032 -423)"
+                            />
+                          </svg>
+                        </span>
+                        <div class="popup">
+                          <p>
+                            The number of days that have to pass from the first
+                            phase. The offset for the first phase is from the
+                            trigger
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="th-inner">
+                      Requirement script
+                      <div class="info ml-2">
+                        <span class="icon">
+                          <!-- <img src="../../../assets/icons/info.svg" /> -->
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 32 32"
+                          >
+                            <path
+                              class="fill-color"
+                              d="M2048,423a16,16,0,1,1-16,16A16,16,0,0,1,2048,423Zm0,14a2,2,0,0,1,2,2v6a2,2,0,0,1-4,0v-6A2,2,0,0,1,2048,437Zm0-6a2,2,0,1,1-2,2A2,2,0,0,1,2048,431Z"
+                              transform="translate(-2032 -423)"
+                            />
+                          </svg>
+                        </span>
+                        <div class="popup">
+                          <p>
+                            If the requirement script is on, the update will
+                            only be available to users who already have the
+                            application installed.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="th-inner"></div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let deploymentPhase of dto.phases; let i = index">
+                  <!--Phase Number-->
+                  <td class="align-center">
+                    {{ i + 1 }}
+                  </td>
+                  <!--Phase Name-->
+                  <td>
+                    <div class="my-3">
+                      <div class="input-group">
+                        <input
+                          [class.is-invalid]="
+                            phaseName.invalid &&
+                            (phaseName.dirty || phaseName.touched)
+                          "
+                          type="text"
+                          class="form-control"
+                          placeholder="Phase Name"
+                          name="{{ 'phase' + deploymentPhase.guid + 'Name' }}"
+                          required
+                          #phaseName="ngModel"
+                          [(ngModel)]="deploymentPhase.name"
+                          maxlength="40"
+                        />
+                      </div>
+                      <div
+                        *ngIf="
+                          phaseName.invalid &&
+                          (phaseName.dirty || phaseName.touched)
+                        "
+                        class="text-danger position-absolute"
+                      >
+                        <div *ngIf="phaseName.errors?.required">Required</div>
+                      </div>
+                    </div>
+                  </td>
+                  <!--Assignment Profile-->
+                  <td>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        #assignmentProfileName="ngModel"
+                        [(ngModel)]="deploymentPhase.assignmentProfileName"
+                        [class.is-invalid]="
+                          assignmentProfileName.invalid &&
+                          (assignmentProfileName.dirty ||
+                            assignmentProfileName.touched)
+                        "
+                        class="form-control"
+                        placeholder="None"
+                        name="{{
+                          'phase' +
+                            deploymentPhase.guid +
+                            'AssignmentProfileName'
+                        }}"
+                        required
+                        readonly
+                      />
+                      <div class="input-group-append">
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                          (click)="setAssignmentProfile(i)"
+                        >
+                          Set
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="
+                        assignmentProfileName.invalid &&
+                        (assignmentProfileName.dirty ||
+                          assignmentProfileName.touched)
+                      "
+                      class="text-danger position-absolute"
+                    >
+                      <div *ngIf="assignmentProfileName.errors?.required">
+                        Required
+                      </div>
+                    </div>
+                  </td>
+                  <!--Offset days-->
+                  <td>
+                    <div class="input-group">
+                      <input
+                        [class.is-invalid]="
+                          offset.invalid && (offset.dirty || offset.touched)
+                        "
+                        type="number"
+                        class="form-control"
+                        placeholder="Offset"
+                        required
+                        name="{{ 'offset' + deploymentPhase.guid }}"
+                        #offset="ngModel"
+                        [(ngModel)]="deploymentPhase.offsetDays"
+                        [minValue]="getPhaseMinOffset(i)"
+                        [maxValue]="maxOffset"
+                        [min]="getPhaseMinOffset(i)"
+                        [max]="maxOffset"
+                      />
+                    </div>
+                    <div
+                      *ngIf="offset.invalid && (offset.dirty || offset.touched)"
+                      class="text-danger position-absolute"
+                    >
+                      <div *ngIf="offset.errors?.required">Required</div>
+                      <div *ngIf="offset.errors?.maxValue">
+                        Maximum value is {{ offset.errors?.maxValue.max }}
+                      </div>
+                      <div *ngIf="offset.errors?.minValue">
+                        Minimum value is {{ offset.errors?.minValue.min }}
+                      </div>
+                    </div>
+                  </td>
+                  <!--Requirement Script-->
+                  <td class="">
+                    <label class="custom-toggle mb-0 ml-5">
+                      <input
+                        type="checkbox"
+                        name="{{
+                          'phase' + deploymentPhase.guid + 'RequirementScript'
+                        }}"
+                        [(ngModel)]="deploymentPhase.useRequirementScript"
+                        [disabled]="action == Action.Details"
+                      />
+                      <div class="toggle">
+                        <div class="dot"></div>
+                      </div>
+                    </label>
+                  </td>
+                  <td>
+                    <a
+                      *ngIf="action != Action.Details && dto.phases.length > 1"
+                      role="button"
+                      class="text-danger pe-auto"
+                      (click)="removePhase(i)"
+                    >
+                      Remove
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr />
+
+    <div class="footer text-right pb-3">
+      <button
+        class="btn btn-outline-primary mr-4"
+        type="button"
+        (click)="onCancel()"
+      >
+        {{ action == Action.Details ? "Back" : "Cancel" }}
+      </button>
+      <button
+        *ngIf="action != Action.Details"
+        type="submit"
+        form="deploymentScheduleForm"
+        class="btn btn-primary"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,148 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="ChangeBillingInfoLabel">Billing information</h3>
+  <button class="close" type="button" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    (ngSubmit)="billingForm.form.valid && submit(billingForm)"
+    #billingForm="ngForm"
+    id="billingForm"
+    class="user payment"
+  >
+    <div class="form-group">
+      <input
+        name="name"
+        [(ngModel)]="billingInfoDto.companyName"
+        #name="ngModel"
+        required
+        pattern="{{ patterns.notOnlyWhiteSpace }}"
+        maxlength="40"
+        class="form-control form-control-user"
+        placeholder="Company name"
+      />
+      <div
+        *ngIf="billingForm.submitted && name.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="name.invalid">Company name is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="subscriptionEmail"
+        type="email"
+        [(ngModel)]="billingInfoDto.subscriptionEmail"
+        #subscriptionEmail="ngModel"
+        maxlength="256"
+        required
+        pattern="{{ patterns.email }}"
+        class="form-control form-control-user"
+        placeholder="E-mail"
+      />
+      <div
+        *ngIf="billingForm.submitted && subscriptionEmail.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="subscriptionEmail.errors?.required">Email is required.</div>
+        <div *ngIf="subscriptionEmail.errors?.pattern">
+          Please enter a valid email.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <select
+        name="country"
+        class="form-control form-control-user"
+        [(ngModel)]="billingInfoDto.country"
+        #country="ngModel"
+        maxlength="100"
+        required
+      >
+        <option selected disabled hidden>
+          {{ countrySelectionTag }}
+        </option>
+        <option *ngFor="let countryItem of countryList" [value]="countryItem">
+          {{ countryItem }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          billingForm.submitted &&
+          billingInfoDto.country === countrySelectionTag
+        "
+        class="alert alert-danger"
+      >
+        Please select a country.
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="zipCode"
+        [(ngModel)]="billingInfoDto.zipCode"
+        #zipCode="ngModel"
+        required
+        maxlength="100"
+        class="form-control form-control-user"
+        placeholder="Zip code"
+      />
+      <div
+        *ngIf="
+          billingForm.submitted && zipCode.invalid && zipCode.errors?.required
+        "
+        class="alert alert-danger"
+      >
+        Zip code is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="city"
+        [(ngModel)]="billingInfoDto.city"
+        #city="ngModel"
+        required
+        maxlength="100"
+        class="form-control form-control-user"
+        placeholder="City"
+      />
+      <div
+        *ngIf="billingForm.submitted && city.invalid && city.errors?.required"
+        class="alert alert-danger"
+      >
+        City is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="vatNumber"
+        [(ngModel)]="billingInfoDto.vatNumber"
+        #vatNumber="ngModel"
+        required
+        maxlength="100"
+        class="form-control form-control-user"
+        placeholder="VAT Number"
+      />
+      <div
+        *ngIf="
+          billingForm.submitted &&
+          vatNumber.invalid &&
+          vatNumber.errors?.required
+        "
+        class="alert alert-danger"
+      >
+        VAT number is required.
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-primary" type="button" (click)="close()">
+    Cancel
+  </button>
+  <button type="submit" form="billingForm" class="btn btn-primary">
+    Update
+  </button>
+</div>

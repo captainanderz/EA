@@ -1,0 +1,90 @@
+<div class="modal-header bg-primary">
+  <button
+    type="button"
+    class="btn-close btn-close-white"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body ms-3 me-3">
+  <div
+    class="row row-cols-1 align-items-center mb-2 d-flex justify-content-center align-items-start"
+  >
+    <div
+      class="circle-image-wrapper mt-n5 mb-2 d-flex justify-content-center align-items-center bg-secondary border border-white border-3 glow modal-icon"
+    >
+      <img
+        class="h-50"
+        src="{{
+          application.iconBase64 || '../../../assets/images/blank-profile.png'
+        }}"
+      />
+    </div>
+    <div class="d-flex flex-column justify-content-center">
+      <div class="text-center">
+        <h3 class="mb-0 fw-bold">{{ application.name }}</h3>
+      </div>
+      <div class="text-muted text-center">
+        version {{ application.version }}
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-12 d-flex align-items-start justify-content-start">
+      <h5>Description</h5>
+    </div>
+    <div class="col-12 d-flex align-items-start justify-content-start">
+      {{ applicationDetails?.description }}
+    </div>
+  </div>
+  <div class="row row-cols-3 mb-4 g-4">
+    <div class="col">
+      <h5>Publisher</h5>
+      {{ applicationDetails?.publisher || "-" }}
+    </div>
+    <div class="col">
+      <h5>Developer</h5>
+      {{ applicationDetails?.developer || "-" }}
+    </div>
+    <div class="col">
+      <h5>Architecture</h5>
+      {{ applicationDetails?.architecture }}
+    </div>
+    <div class="col">
+      <h5>Information URL</h5>
+      {{ applicationDetails?.informationUrl }}
+    </div>
+    <div class="col">
+      <h5>Added At</h5>
+      {{ applicationDetails?.createdOn | date: "dd/MM/yyyy" }}
+    </div>
+    <div class="col">
+      <h5>Updated At</h5>
+      {{ applicationDetails?.modifiedOn | date: "dd/MM/yyyy" }}
+    </div>
+    <div class="col">
+      <h5>Notes</h5>
+      {{ applicationDetails?.notes || "-" }}
+    </div>
+  </div>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <button
+    (click)="request()"
+    class="btn btn-primary block-below-sm"
+    [disabled]="
+      application.requestState == RequestState.Pending ||
+      application.requestState == RequestState.Accepted
+    "
+  >
+    <ng-container [ngSwitch]="application.requestState">
+      <ng-container *ngSwitchCase="RequestState.Pending">
+        Pending
+      </ng-container>
+      <ng-container *ngSwitchCase="RequestState.Accepted">
+        Accepted
+      </ng-container>
+      <ng-container *ngSwitchDefault> Request </ng-container>
+    </ng-container>
+  </button>
+</div>

@@ -1,0 +1,55 @@
+<ng-container *ngTemplateOutlet="templateRefExp"></ng-container>
+<ng-template #loggedIn>
+  <div id="wrapper">
+    <!-- Snow Effect for Christmas, uncomment on Christmas -->
+    <!-- <Snow
+      *ngIf="appSettingsService.getSnow()"
+      [amount]="500"
+      [size]="5"
+      [speed]="1.5"
+      [wind]="0"
+      [color]="'#dde'"
+      [opacity]="0.8"
+      [swing]="1"
+      [image]=""
+      [zIndex]="10000"
+    ></Snow> -->
+    <ul class="navbar-nav sidebar accordion" id="accordionSidebar">
+      <app-sidebar></app-sidebar>
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <app-header></app-header>
+        <router-outlet></router-outlet>
+        <div *ngIf="overlayVisible" class="app-overlay">
+          <div class="spinner-border text-primary app-spinner" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #notLoggedIn>
+  <div class="bg-login login-page">
+    <div class="container">
+      <div class="row full-height align-items-center justify-content-center">
+        <div class="col-xl-5 col-lg-12 col-md-9">
+          <div class="mb-4 d-flex justify-content-center">
+            <img src="assets/icons/logo-full.svg" />
+          </div>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #notLoggedInCustom>
+  <div class="bg-login login-page">
+    <div class="container">
+      <div class="row full-height align-items-center justify-content-center">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</ng-template>

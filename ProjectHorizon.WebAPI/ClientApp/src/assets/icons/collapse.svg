@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.953" height="12" viewBox="0 0 25.906 24">
+  <defs>
+    <style>
+      .collapse-cls-1, .collapse-cls-2 {
+        fill: #00baff;
+      }
+
+      .collapse-cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Rounded_Rectangle_5" data-name="Rounded Rectangle 5" class="collapse-cls-1" d="M642.314,61.515L633.828,70l8.486,8.485a2,2,0,0,1-2.829,2.828l-9.8-9.8a2.28,2.28,0,0,1,0-3.029l9.8-9.8A2,2,0,1,1,642.314,61.515Z" transform="translate(-617 -58)"/>
+  <rect id="Rounded_Rectangle_7" data-name="Rounded Rectangle 7" class="collapse-cls-2" width="4" height="24" rx="2" ry="2"/>
+</svg>

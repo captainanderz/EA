@@ -1,0 +1,15 @@
+.app-icon {
+    height: 64px;
+    width: auto;
+}
+
+.description-height {
+    height:80px;
+}
+
+.description-turncate {
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h3 class="modal-title">Are you sure?</h3>
+  <button class="close" type="button" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>By continuing the application will be removed from the shop.</p>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="flexCheckDefault"
+      [(ngModel)]="dto.shouldDeleteGroup"
+    />
+    <label class="form-check-label text-muted" for="flexCheckDefault">
+      Delete the linked group from Microsoft Endpoint Manager
+    </label>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="activeModal.close()"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-primary next" (click)="doContinue()">
+    Continue
+  </button>
+</div>

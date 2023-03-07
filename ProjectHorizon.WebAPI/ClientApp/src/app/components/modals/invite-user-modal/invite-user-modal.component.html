@@ -1,0 +1,110 @@
+<div class="modal-header">
+  <h3 class="modal-title">Invite user</h3>
+  <button class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">
+      <img src="assets/icons/close.svg" />
+    </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    (ngSubmit)="inviteUserForm.form.valid && submit(inviteUserForm)"
+    #inviteUserForm="ngForm"
+    class="user"
+  >
+    <div class="form-group">
+      <input
+        name="firstName"
+        [(ngModel)]="userInvitationDto.firstName"
+        #firstName="ngModel"
+        maxlength="50"
+        required
+        pattern="{{ patterns.notOnlyWhiteSpace }}"
+        class="form-control form-control-user"
+        placeholder="First name"
+      />
+      <div
+        *ngIf="
+          inviteUserForm.submitted &&
+          (firstName.invalid || !isPersonNameValid(firstName.value))
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="firstName.invalid">First name is required</div>
+        <div *ngIf="!firstName.invalid && !isPersonNameValid(firstName.value)">
+          First name contains invalid characters
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="lastName"
+        [(ngModel)]="userInvitationDto.lastName"
+        #lastName="ngModel"
+        maxlength="50"
+        required
+        pattern="{{ patterns.notOnlyWhiteSpace }}"
+        class="form-control form-control-user"
+        placeholder="Last name"
+      />
+      <div
+        *ngIf="
+          inviteUserForm.submitted &&
+          (lastName.invalid || !isPersonNameValid(lastName.value))
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="lastName.invalid">Last name is required</div>
+        <div *ngIf="!lastName.invalid && !isPersonNameValid(lastName.value)">
+          Last name contains invalid characters
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        name="email"
+        type="email"
+        [(ngModel)]="userInvitationDto.email"
+        #email="ngModel"
+        maxlength="256"
+        required
+        pattern="{{ patterns.email }}"
+        class="form-control form-control-user"
+        placeholder="E-mail"
+      />
+      <div
+        *ngIf="inviteUserForm.submitted && email.invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="email.errors?.required">Email is required.</div>
+        <div *ngIf="email.errors?.pattern">Please enter a valid email.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <select
+        name="userRole"
+        class="form-control form-control-user"
+        [(ngModel)]="userInvitationDto.userRole"
+        #userRole="ngModel"
+        required
+      >
+        <option selected disabled hidden>{{ roleSelectionTag }}</option>
+        <option>{{ userRoles.Administrator }}</option>
+        <option>{{ userRoles.Contributor }}</option>
+        <option>{{ userRoles.Reader }}</option>
+      </select>
+      <div
+        *ngIf="
+          inviteUserForm.submitted &&
+          userInvitationDto.userRole === roleSelectionTag
+        "
+        class="alert alert-danger"
+      >
+        Please select user role.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-user btn-block">
+      Send invite
+    </button>
+  </form>
+</div>

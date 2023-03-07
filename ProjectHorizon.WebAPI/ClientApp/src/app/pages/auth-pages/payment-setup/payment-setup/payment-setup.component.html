@@ -1,0 +1,27 @@
+<div *ngIf="showPaymentResult">
+  <div class="card o-hidden border-0">
+    <div class="card-body p-0">
+      <div class="row">
+        <div class="col-12">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h3 mb-4">{{ pageTitle }}</h1>
+            </div>
+            <div class="page-text">
+              <p>{{ pageText }}</p>
+              <p>{{ pageTextExtra }}</p>
+              <p>{{ pageDetails }}</p>
+            </div>
+            <button
+              *ngIf="paymentButtonText"
+              class="btn btn-primary btn-user btn-block"
+              (click)="redirectUser()"
+            >
+              {{ paymentButtonText }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

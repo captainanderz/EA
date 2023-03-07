@@ -1,0 +1,18 @@
+﻿apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentity
+metadata:
+    name: horizonidentity
+    namespace: ingress-basic
+spec:
+    type: 0
+    resourceID: /subscriptions/4c43b55f-d7ec-4861-9b51-429b2c438474/resourceGroups/ea-p-rg-aks-01/providers/Microsoft.ManagedIdentity/userAssignedIdentities/horizonidentity
+    clientID: "82fffed2-80a1-442c-bd25-e52d3f48eced"
+---
+apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentityBinding
+metadata:
+    name: horizon-identity-binding
+    namespace: ingress-basic
+spec:
+    azureIdentity: "horizonidentity"
+    selector: horizon-identity-binding-selector
